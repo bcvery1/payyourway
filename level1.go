@@ -18,6 +18,12 @@ func (l *Level1) Init(pixel.Rect) {
 		}
 	}
 
+	for _, obj := range tmxMap.GetObjectLayerByName("CommonCollisions").Objects {
+		if r, err :=  obj.GetRect(); err == nil {
+			l.collisionRects = append(l.collisionRects, r)
+		}
+	}
+
 	mineObjLayer := tmxMap.GetObjectLayerByName("mines")
 	for _, obj := range mineObjLayer.Objects {
 		if r, err :=  obj.GetRect(); err == nil {
@@ -58,7 +64,13 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 
 	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
 		camPos = camPos.Add(deltaPos)
-		l.Hurt(player.bounds.Moved(player.offSet.Add(deltaPos)))
+		l.Hurt(player.CollisionBox().Moved(deltaPos))
+	}
+
+	// Check if we've reached a shop
+	if shopName := l.ReachedShop(); shopName != "" {
+		lvlMan.StartLevel(ShopInd)
+		lvlMan.Shop().Setup(shopName)
 	}
 }
 
@@ -81,5 +93,16 @@ func (l *Level1) Hurt(playerR pixel.Rect) {
 			return
 		}
 	}
+}
+
+func (l *Level1) ReachedShop() string {
+	for _, obj := range tmxMap.GetObjectLayerByName("shops").Objects {
+
+		if r, err := obj.GetRect(); err == nil && r.Intersect(player.CollisionBox()) != pixel.R(0, 0, 0, 0) {
+			return obj.Name
+		}
+	}
+
+	return ""
 }
 

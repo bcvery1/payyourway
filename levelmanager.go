@@ -5,6 +5,16 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 )
 
+const (
+	//MenuInd = iota
+	Level1Ind = iota
+	Level2Ind
+	Level3Ind
+	Level4Ind
+	ShopInd
+	EndInd
+)
+
 type Level interface {
 	Init(pixel.Rect)
 	Start()
@@ -12,11 +22,13 @@ type Level interface {
 	Draw(*pixelgl.Window)
 	Collides(pixel.Rect) bool
 	Hurt(pixel.Rect)
+	ReachedShop() string
 }
 
 type LevelManager struct {
 	currentLevel int
 	levels []Level
+	previousLevel int
 }
 
 func NewLevelManager(bounds pixel.Rect) *LevelManager {
@@ -25,18 +37,17 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 		levels: []Level{
 			//&Menu{},
 			&Level1{},
-			//&Level2{},
-			//&Level3{},
-			//&Level4{},
+			&Level2{},
+			&Level3{},
+			&Level4{},
 			&Shop{},
+			&End{},
 		},
 	}
 
 	for _, lvl := range lm.levels {
 		lvl.Init(bounds)
 	}
-
-	lm.levels[0].Start()
 
 	return &lm
 }
@@ -54,10 +65,15 @@ func (lm *LevelManager) CurrentLevel() Level {
 }
 
 func (lm *LevelManager) StartLevel(index int) {
+	lm.previousLevel = lm.currentLevel
 	lm.currentLevel = index
 	lm.CurrentLevel().Start()
 }
 
 func (lm *LevelManager) RestartLevel() {
 	lm.StartLevel(lm.currentLevel)
+}
+
+func (lm *LevelManager) Shop() *Shop {
+	return lm.levels[ShopInd].(*Shop)
 }

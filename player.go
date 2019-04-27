@@ -43,7 +43,7 @@ func NewPlayer() *Player {
 }
 
 func (p *Player) CanMove(delta pixel.Vec) bool {
-	return !lvlMan.CurrentLevel().Collides(p.bounds.Moved(p.offSet.Add(delta)))
+	return !lvlMan.CurrentLevel().Collides(p.CollisionBox().Moved(delta))
 }
 
 func (p *Player) Update(dt float64, offset pixel.Vec) {
@@ -124,4 +124,8 @@ func (p *Player) Die() {
 	p.health = p.maxHealth
 
 	lvlMan.RestartLevel()
+}
+
+func (p *Player) CollisionBox() pixel.Rect {
+	return p.bounds.Moved(p.offSet)
 }

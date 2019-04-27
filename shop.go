@@ -75,6 +75,7 @@ func (i *Item) Draw (imd *imdraw.IMDraw, target pixel.Target) {
 type Shop struct {
 	imd *imdraw.IMDraw
 	items []*Item
+	nextLevel int
 }
 
 func (s *Shop) Update(dt float64, win *pixelgl.Window) {
@@ -101,15 +102,6 @@ func (s *Shop) Hurt(pixel.Rect) {}
 
 func (s *Shop) Init(pixel.Rect) {
 	s.imd = imdraw.New(nil)
-
-	s.AddItem(10, "a")
-	s.AddItem(20, "b")
-	s.AddItem(300, "c")
-	s.AddItem(10, "a")
-	s.AddItem(20, "b")
-	s.AddItem(10, "a")
-	s.AddItem(20, "b")
-	fmt.Println(s)
 }
 
 func (s *Shop) AddItem(cost float64, name string) {
@@ -149,4 +141,26 @@ func (s *Shop) Start() {
 
 func (s *Shop) ClearItems() {
 	s.items = []*Item{}
+}
+
+func (s *Shop) ReachedShop() string {
+	return ""
+}
+
+func (s *Shop) Setup(shopName string) {
+	switch shopName {
+	case "main":
+		if lvlMan.previousLevel == Level4Ind {
+			lvlMan.StartLevel(EndInd)
+		}
+		s.nextLevel = lvlMan.previousLevel+1
+	case "FirstLevelMid":
+		s.nextLevel = Level1Ind
+	case "SecondLevelMid":
+		s.nextLevel = Level2Ind
+	case "ThirdLevelMid":
+		s.nextLevel = Level3Ind
+	default:
+		panic("Unrecognised shop name " + shopName)
+	}
 }
