@@ -41,7 +41,7 @@ func run() {
 	}
 
 	cfg := pixelgl.WindowConfig{
-		Title: "Pay You Way",
+		Title: "Pay Your Way",
 		Bounds: winBounds,
 		VSync: true,
 	}
@@ -54,7 +54,7 @@ func run() {
 	atlas = text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
 	lvlMan = NewLevelManager(winBounds)
-	lvlMan.StartLevel(EndInd)
+	lvlMan.StartLevel(Level1Ind)
 	player = NewPlayer()
 
 	last := time.Now()
@@ -68,10 +68,6 @@ func run() {
 		cam := pixel.IM.Scaled(camPos, camZoom).Moved(winBounds.Center().Sub(camPos))
 		win.SetMatrix(cam)
 		camZoom *= math.Pow(1.2, win.MouseScroll().Y)
-
-		if win.Pressed(pixelgl.KeyE) {
-			player.Hurt(10)
-		}
 
 		win.Clear(backingColour)
 

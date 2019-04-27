@@ -82,7 +82,7 @@ type Shop struct {
 func (s *Shop) Update(dt float64, win *pixelgl.Window) {
 	mousePos := win.MousePosition()
 
-	for _, i := range s.items {
+	for j, i := range s.items {
 		if i.cost >= player.health {
 			i.disabled = true
 		}
@@ -91,12 +91,14 @@ func (s *Shop) Update(dt float64, win *pixelgl.Window) {
 
 		if win.JustPressed(pixelgl.MouseButtonLeft) && i.highlighted {
 			i.Buy()
+			s.items = append(s.items[:j], s.items[j+1:]...)
 		}
 	}
 
 	if win.JustPressed(pixelgl.MouseButtonLeft) && pixel.R(winBounds.W()-120, 0, winBounds.W(), 50).Contains(mousePos) {
 		player.health = player.maxHealth
 		lvlMan.StartLevel(s.nextLevel)
+		s.ClearItems()
 	}
 }
 
@@ -114,7 +116,7 @@ func (s *Shop) Init(pixel.Rect) {
 	_, _ = fmt.Fprint(s.returnText, "Return")
 }
 
-func (s *Shop) AddItem(cost float64, name string) {
+func (s *Shop) AddItem(cost float64, name, desc string) {
 	if len(s.items) >= buttonsAcross * buttonsDown {
 		return
 	}
@@ -161,13 +163,18 @@ func (s *Shop) ReachedShop() string {
 
 func (s *Shop) Setup(shopName string) {
 	switch shopName {
-	case "main":
+	case "Main":
 		if lvlMan.previousLevel == Level4Ind {
 			lvlMan.StartLevel(EndInd)
 		}
 		s.nextLevel = lvlMan.previousLevel+1
 	case "FirstLevelMid":
 		s.nextLevel = Level1Ind
+
+		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
+		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
+		s.AddItem(99, "Max HP Boost", "Permanently adds 20 extra HP")
+		s.AddItem(150, "Flares", "One use deploy flares")
 	case "SecondLevelMid":
 		s.nextLevel = Level2Ind
 	case "ThirdLevelMid":
