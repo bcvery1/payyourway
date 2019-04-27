@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 
 	"github.com/faiface/pixel"
@@ -20,6 +21,8 @@ var (
 
 	itemColour = color.RGBA{R: 0x5c, G: 0x72, B: 0x7e, A: 0x00}
 	itemSelectColour = color.RGBA{R: 0x80, G: 0xb9, B: 0xda, A: 0x00}
+	itemBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0x00}
+	itemSelectBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0xaa}
 )
 
 type Item struct {
@@ -27,6 +30,7 @@ type Item struct {
 	highlighted bool
 	cost float64
 	gridPos pixel.Vec
+	name string
 }
 
 func (i *Item) winPos() pixel.Rect {
@@ -45,11 +49,19 @@ func (i *Item) Draw (imd *imdraw.IMDraw) {
 
 	box := i.winPos()
 	imd.Push(box.Min, box.Max)
+	imd.Rectangle(0)
+
+	imd.Color = itemBorder
+	if i.highlighted {
+		imd.Color = itemSelectBorder
+	}
+	imd.Push(box.Min, box.Max)
+	imd.Rectangle(4)
 }
 
 type Shop struct {
 	imd *imdraw.IMDraw
-	items []Item
+	items []*Item
 }
 
 func (s *Shop) Update(dt float64, win *pixelgl.Window) {
@@ -64,14 +76,40 @@ func (s *Shop) Update(dt float64, win *pixelgl.Window) {
 	}
 }
 
-func (s *Shop) Collides(pixel.Rect) bool {}
+func (s *Shop) Collides(pixel.Rect) bool {
+	return false
+}
 
 func (s *Shop) Hurt(pixel.Rect) {}
 
 func (s *Shop) Init(pixel.Rect) {
-	camPos = pixel.ZV
-
 	s.imd = imdraw.New(nil)
+
+	s.AddItem(10, "a")
+	s.AddItem(20, "b")
+	s.AddItem(300, "c")
+	s.AddItem(10, "a")
+	s.AddItem(20, "b")
+	s.AddItem(10, "a")
+	s.AddItem(20, "b")
+	fmt.Println(s)
+}
+
+func (s *Shop) AddItem(cost float64, name string) {
+	if len(s.items) >= buttonsAcross * buttonsDown {
+		return
+	}
+
+	i := Item{
+		name: name,
+		cost: cost,
+		gridPos: pixel.V(
+			float64(len(s.items)%buttonsAcross),
+			float64(len(s.items)/buttonsAcross),
+			),
+	}
+
+	s.items = append(s.items, &i)
 }
 
 func (s *Shop) Draw(target pixel.Target) {
@@ -85,4 +123,5 @@ func (s *Shop) Draw(target pixel.Target) {
 }
 
 func (s *Shop) Start() {
+	camPos = winBounds.Center()
 }
