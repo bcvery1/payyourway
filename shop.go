@@ -21,6 +21,8 @@ var (
 
 	itemColour = color.RGBA{R: 0x5c, G: 0x72, B: 0x7e, A: 0x00}
 	itemSelectColour = color.RGBA{R: 0x80, G: 0xb9, B: 0xda, A: 0x00}
+	itemDisabledColour = color.RGBA{R: 0x55, G: 0x55, B: 0x55, A: 0x00}
+
 	itemBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0x00}
 	itemSelectBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0xaa}
 )
@@ -41,10 +43,17 @@ func (i *Item) winPos() pixel.Rect {
 	}
 }
 
+func (i *Item) Buy() {
+	player.Hurt(i.cost)
+}
+
 func (i *Item) Draw (imd *imdraw.IMDraw) {
 	imd.Color = itemColour
 	if i.highlighted {
 		imd.Color = itemSelectColour
+	}
+	if i.disabled {
+		imd.Color = itemDisabledColour
 	}
 
 	box := i.winPos()
@@ -68,11 +77,15 @@ func (s *Shop) Update(dt float64, win *pixelgl.Window) {
 	mousePos := win.MousePosition()
 
 	for _, i := range s.items {
-		if i.cost > player.health {
+		if i.cost >= player.health {
 			i.disabled = true
 		}
 
-		i.highlighted = i.winPos().Contains(mousePos)
+		i.highlighted = i.winPos().Contains(mousePos) && !i.disabled
+
+		if win.JustPressed(pixelgl.MouseButtonLeft) && i.highlighted {
+			i.Buy()
+		}
 	}
 }
 
