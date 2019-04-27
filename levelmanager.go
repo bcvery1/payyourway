@@ -24,11 +24,11 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 		currentLevel: 0,
 		levels: []Level{
 			//&Menu{},
-			&Level1{},
+			//&Level1{},
 			//&Level2{},
 			//&Level3{},
 			//&Level4{},
-			//&Shop{},
+			&Shop{},
 		},
 	}
 
@@ -45,8 +45,8 @@ func (lm *LevelManager) Update(dt float64, win *pixelgl.Window) {
 	lm.CurrentLevel().Update(dt, win)
 }
 
-func (lm *LevelManager) Draw(target pixel.Target) {
-	lm.CurrentLevel().Draw(target)
+func (lm *LevelManager) Draw(win *pixelgl.Window) {
+	lm.CurrentLevel().Draw(win)
 }
 
 func (lm *LevelManager) CurrentLevel() Level {

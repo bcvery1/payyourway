@@ -26,8 +26,9 @@ func (l *Level1) Init(pixel.Rect) {
 	}
 }
 
-func (l *Level1) Draw(target pixel.Target) {
-	_ = tmxMap.DrawAll(target, backingColour, pixel.IM)
+func (l *Level1) Draw(win *pixelgl.Window) {
+	_ = tmxMap.DrawAll(win, backingColour, pixel.IM)
+	player.Draw(win)
 }
 
 func (l *Level1) Start() {

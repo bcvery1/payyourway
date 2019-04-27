@@ -72,7 +72,6 @@ func run() {
 		lvlMan.Update(dt, win)
 
 		lvlMan.Draw(win)
-		player.Draw(win)
 
 		win.Update()
 

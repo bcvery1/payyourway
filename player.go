@@ -16,6 +16,7 @@ type Player struct {
 	offSet pixel.Vec
 	imd *imdraw.IMDraw
 	hitFade uint8
+	inventory []Item
 }
 
 func NewPlayer() *Player {
