@@ -46,6 +46,14 @@ func NewEnemy(static bool, pos pixel.Vec) {
 	enemies = append(enemies, &e)
 }
 
+func SetupEnemies() {
+	for _, p := range tmxMap.GetObjectLayerByName("EnemyLocs").Objects {
+		if p, err := p.GetPoint(); err == nil {
+			NewEnemy(true, p)
+		}
+	}
+}
+
 func (e *Enemy) Update(dt float64) {
 	toPlayer := e.pos.To(player.CollisionBox().Center())
 	e.angle = toPlayer.Angle()

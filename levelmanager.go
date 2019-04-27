@@ -67,7 +67,6 @@ func (lm *LevelManager) CurrentLevel() Level {
 func (lm *LevelManager) StartLevel(index int) {
 	rockets = make(map[int]*rocket)
 	fires = make(map[int]*fire)
-	enemies = make([]*Enemy, 0)
 
 	lm.previousLevel = lm.currentLevel
 	lm.currentLevel = index

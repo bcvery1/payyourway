@@ -16,23 +16,6 @@ var (
 		pixel.V(3701, 4372),
 		pixel.V(4261, 4596),
 	}
-
-	lvl1enemyPos = []pixel.Vec{
-		pixel.V(3426, 1173),
-		pixel.V(3313, 1283),
-		pixel.V(3615, 1422),
-		pixel.V(3353, 1479),
-		pixel.V(3455, 1608),
-		pixel.V(3099, 1545),
-		pixel.V(3144, 1070),
-		pixel.V(3295, 1003),
-		pixel.V(3610, 963),
-		pixel.V(3560, 1683),
-		pixel.V(3946, 1177),
-		pixel.V(3940, 1108),
-		pixel.V(3933, 1000),
-		pixel.V(5104, 1601),
-	}
 )
 
 type Level1 struct {
@@ -77,10 +60,6 @@ func (l *Level1) Draw(win *pixelgl.Window) {
 
 func (l *Level1) Start() {
 	camPos = pixel.V(3210, 405)
-
-	for _, ep := range lvl1enemyPos {
-		NewEnemy(true, ep)
-	}
 }
 
 func (l *Level1) Update(dt float64, win *pixelgl.Window) {

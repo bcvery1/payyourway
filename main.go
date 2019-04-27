@@ -87,6 +87,7 @@ func run() {
 	lvlMan = NewLevelManager(winBounds)
 	lvlMan.StartLevel(MenuInd)
 	player = NewPlayer()
+	SetupEnemies()
 
 	last := time.Now()
 	second := time.Tick(time.Second)
