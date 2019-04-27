@@ -75,7 +75,7 @@ func run() {
 		frames++
 		select {
 		case <-second:
-			win.SetTitle(fmt.Sprintf("%s | FPS: %d | %v", cfg.Title, frames, camPos))
+			win.SetTitle(fmt.Sprintf("%s | FPS: %d | %v | %.2f", cfg.Title, frames, camPos, camZoom))
 			frames = 0
 		default:
 		}
