@@ -93,6 +93,11 @@ func (s *Shop) Update(dt float64, win *pixelgl.Window) {
 			i.Buy()
 		}
 	}
+
+	if win.JustPressed(pixelgl.MouseButtonLeft) && pixel.R(winBounds.W()-120, 0, winBounds.W(), 50).Contains(mousePos) {
+		player.health = player.maxHealth
+		lvlMan.StartLevel(s.nextLevel)
+	}
 }
 
 func (s *Shop) Collides(pixel.Rect) bool {
@@ -105,6 +110,7 @@ func (s *Shop) Init(pixel.Rect) {
 	s.imd = imdraw.New(nil)
 
 	s.returnText = text.New(pixel.V(winBounds.W()-120, 5), atlas)
+	s.returnText.Color = color.White
 	_, _ = fmt.Fprint(s.returnText, "Return")
 }
 
@@ -136,10 +142,7 @@ func (s *Shop) Draw(win *pixelgl.Window) {
 		i.Draw(s.imd, win)
 	}
 
-	s.imd.Push(pixel.V(winBounds.W() - 120, 5), pixel.V(winBounds.W()-5, 50))
-	s.imd.Rectangle(0)
-
-	s.returnText.Draw(win, pixel.IM.Scaled(s.returnText.Orig, 1))
+	s.returnText.Draw(win, pixel.IM.Scaled(s.returnText.Orig, 2))
 
 	s.imd.Draw(win)
 }
