@@ -133,14 +133,14 @@ func (s *Shop) AddItem(cost float64, name string) {
 	s.items = append(s.items, &i)
 }
 
-func (s *Shop) Draw(target pixel.Target) {
+func (s *Shop) Draw(win *pixelgl.Window) {
 	s.imd.Clear()
 
 	for _, i := range s.items {
-		i.Draw(s.imd, target)
+		i.Draw(s.imd, win)
 	}
 
-	s.imd.Draw(target)
+	s.imd.Draw(win)
 }
 
 func (s *Shop) Start() {

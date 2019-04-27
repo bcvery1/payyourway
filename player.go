@@ -120,5 +120,8 @@ func (p *Player) Hurt(hp float64) {
 }
 
 func (p *Player) Die() {
-	panic("You died")
+	// TODO add death screen with timeout
+	p.health = p.maxHealth
+
+	lvlMan.RestartLevel()
 }

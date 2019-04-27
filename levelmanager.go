@@ -9,7 +9,7 @@ type Level interface {
 	Init(pixel.Rect)
 	Start()
 	Update(float64, *pixelgl.Window)
-	Draw(pixel.Target)
+	Draw(*pixelgl.Window)
 	Collides(pixel.Rect) bool
 	Hurt(pixel.Rect)
 }
@@ -24,7 +24,7 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 		currentLevel: 0,
 		levels: []Level{
 			//&Menu{},
-			//&Level1{},
+			&Level1{},
 			//&Level2{},
 			//&Level3{},
 			//&Level4{},
@@ -56,4 +56,8 @@ func (lm *LevelManager) CurrentLevel() Level {
 func (lm *LevelManager) StartLevel(index int) {
 	lm.currentLevel = index
 	lm.CurrentLevel().Start()
+}
+
+func (lm *LevelManager) RestartLevel() {
+	lm.StartLevel(lm.currentLevel)
 }
