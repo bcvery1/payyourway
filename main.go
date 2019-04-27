@@ -40,6 +40,10 @@ func init() {
 		pixel.NewSprite(tilemapPic, pixel.R(48, 33*16, 64, 34*16)),
 	}
 
+	enemySprites = []*pixel.Sprite{
+		pixel.NewSprite(tilemapPic, pixel.R(0, 16, 16, 32)),
+	}
+
 	rand.Seed(time.Now().UnixNano())
 }
 
@@ -107,6 +111,14 @@ func run() {
 
 		UpdateFires(dt)
 		DrawFires(win)
+
+		UpdateEnemies(dt)
+		DrawEnemies(win)
+
+		if win.JustPressed(pixelgl.MouseButtonLeft) {
+			v := cam.Unproject(win.MousePosition())
+			fmt.Printf("pixel.V(%.0f, %.0f),\n", v.X, v.Y)
+		}
 
 		win.Update()
 
