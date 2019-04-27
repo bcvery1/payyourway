@@ -49,7 +49,7 @@ var (
 	winBounds     = pixel.R(0, 0, 1024, 720)
 	tmxMap        *tilepix.Map
 
-	speed = 1280. / 4
+	speed = 1280. / 6
 
 	camPos  = pixel.ZV
 	camZoom = 1.0

@@ -32,10 +32,8 @@ func NewPlayer() *Player {
 			pixel.NewSprite(tilemapPic, pixel.R(32, 0, 48, 16)),
 			pixel.NewSprite(tilemapPic, pixel.R(48, 0, 64, 16)),
 		},
-		imd:       imdraw.New(nil),
-		hitFade:   255,
-		shield:    50,
-		maxShield: 50,
+		imd:     imdraw.New(nil),
+		hitFade: 255,
 	}
 
 	return &p
