@@ -13,6 +13,8 @@ import (
 	"github.com/bcvery1/tilepix"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
+	"golang.org/x/image/font/basicfont"
 )
 
 var (
@@ -27,6 +29,8 @@ var (
 
 	player *Player
 	lvlMan *LevelManager
+
+	atlas *text.Atlas
 )
 
 func run() {
@@ -46,6 +50,8 @@ func run() {
 	if err != nil {
 		panic(err)
 	}
+
+	atlas = text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
 	lvlMan = NewLevelManager(winBounds)
 	player = NewPlayer()

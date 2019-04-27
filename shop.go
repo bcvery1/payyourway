@@ -7,6 +7,7 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 )
 
 const (
@@ -33,6 +34,7 @@ type Item struct {
 	cost float64
 	gridPos pixel.Vec
 	name string
+	text *text.Text
 }
 
 func (i *Item) winPos() pixel.Rect {
@@ -47,7 +49,7 @@ func (i *Item) Buy() {
 	player.Hurt(i.cost)
 }
 
-func (i *Item) Draw (imd *imdraw.IMDraw) {
+func (i *Item) Draw (imd *imdraw.IMDraw, target pixel.Target) {
 	imd.Color = itemColour
 	if i.highlighted {
 		imd.Color = itemSelectColour
@@ -66,6 +68,8 @@ func (i *Item) Draw (imd *imdraw.IMDraw) {
 	}
 	imd.Push(box.Min, box.Max)
 	imd.Rectangle(4)
+
+	i.text.Draw(target, pixel.IM.Scaled(i.text.Orig, 2))
 }
 
 type Shop struct {
@@ -122,6 +126,10 @@ func (s *Shop) AddItem(cost float64, name string) {
 			),
 	}
 
+	i.text = text.New(i.winPos().Min.Add(pixel.V(20, itemHeight-30)), atlas)
+	i.text.Color = color.RGBA{R: 0xbb, G: 0xc5, B: 0xda, A: 0x00}
+	_, _ = fmt.Fprintf(i.text, "%s\n\nCost (hp): %.2f", i.name, i.cost)
+
 	s.items = append(s.items, &i)
 }
 
@@ -129,7 +137,7 @@ func (s *Shop) Draw(target pixel.Target) {
 	s.imd.Clear()
 
 	for _, i := range s.items {
-		i.Draw(s.imd)
+		i.Draw(s.imd, target)
 	}
 
 	s.imd.Draw(target)
