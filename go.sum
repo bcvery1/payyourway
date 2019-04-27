@@ -1,5 +1,7 @@
 github.com/bcvery1/tilepix v0.3.1 h1:dffh4e7K3N0rl90/JRPiQIsIcHtUaE0NgFYdb+mQkoE=
 github.com/bcvery1/tilepix v0.3.1/go.mod h1:7fLTw5Oon/9a1miTql8qBXDRwm/GszEyxOasAdZcmHY=
+github.com/bcvery1/tilepix v0.3.2 h1:E6YPy2BjmuwacZR91t2OhdAzB8KLtdBX4EJSDjR1N+U=
+github.com/bcvery1/tilepix v0.3.2/go.mod h1:7fLTw5Oon/9a1miTql8qBXDRwm/GszEyxOasAdZcmHY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/faiface/glhf v0.0.0-20181018222622-82a6317ac380 h1:FvZ0mIGh6b3kOITxUnxS3tLZMh7yEoHo75v3/AgUqg0=

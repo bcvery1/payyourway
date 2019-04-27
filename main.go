@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"image"
 	"image/color"
+	"math"
+	"os"
 	"time"
 
 	_ "image/png"
@@ -14,8 +17,15 @@ import (
 
 var (
 	backingColour = color.RGBA{0, 0, 0, 0}
-	winBounds = pixel.R(0, 0, 1280, 720)
+	winBounds = pixel.R(0, 0, 1920, 1080)
 	tmxMap *tilepix.Map
+
+	speed = 1280.
+
+	camPos = pixel.ZV
+	camZoom = 1.0
+
+	player *Player
 )
 
 func run() {
@@ -24,7 +34,6 @@ func run() {
 	if err != nil {
 		panic(err)
 	}
-
 
 	cfg := pixelgl.WindowConfig{
 		Title: "Pay You Way",
@@ -38,6 +47,7 @@ func run() {
 	}
 
 	lvlMan := NewLevelManager(winBounds)
+	player = NewPlayer()
 
 	last := time.Now()
 	second := time.Tick(time.Second)
@@ -47,21 +57,41 @@ func run() {
 		dt := time.Since(last).Seconds()
 		last = time.Now()
 
+		cam := pixel.IM.Scaled(camPos, camZoom).Moved(winBounds.Center().Sub(camPos))
+		win.SetMatrix(cam)
+		camZoom *= math.Pow(1.2, win.MouseScroll().Y)
+
 		win.Clear(backingColour)
 
-		lvlMan.Update(dt)
+		player.Update(dt, cam.Unproject(winBounds.Center()))
+		lvlMan.Update(dt, win)
+
 		lvlMan.Draw(win)
+		player.Draw(win)
 
 		win.Update()
 
 		frames++
 		select {
 		case <-second:
-			win.SetTitle(fmt.Sprintf("%s | FPS: %d", cfg.Title, frames))
+			win.SetTitle(fmt.Sprintf("%s | FPS: %d | %v", cfg.Title, frames, camPos))
 			frames = 0
 		default:
 		}
 	}
+}
+
+func loadPicture(path string) (pixel.Picture, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	return pixel.PictureDataFromImage(img), nil
 }
 
 func main() {
