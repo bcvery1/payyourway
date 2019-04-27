@@ -11,6 +11,7 @@ type Level interface {
 	Update(float64, *pixelgl.Window)
 	Draw(pixel.Target)
 	Collides(pixel.Rect) bool
+	Hurt(pixel.Rect)
 }
 
 type LevelManager struct {

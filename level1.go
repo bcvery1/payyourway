@@ -7,14 +7,21 @@ import (
 
 type Level1 struct {
 	collisionRects []pixel.Rect
+	mineRects []pixel.Rect
 }
 
 func (l *Level1) Init(pixel.Rect) {
-	objLayer := tmxMap.GetObjectLayerByName("Level1Collisions")
-
-	for _, obj := range objLayer.Objects {
+	collisionOjLayer := tmxMap.GetObjectLayerByName("Level1Collisions")
+	for _, obj := range collisionOjLayer.Objects {
 		if r, err :=  obj.GetRect(); err == nil {
 			l.collisionRects = append(l.collisionRects, r)
+		}
+	}
+
+	mineObjLayer := tmxMap.GetObjectLayerByName("mines")
+	for _, obj := range mineObjLayer.Objects {
+		if r, err :=  obj.GetRect(); err == nil {
+			l.mineRects = append(l.mineRects, r)
 		}
 	}
 }
@@ -35,8 +42,9 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 	if win.Pressed(pixelgl.KeyS) {
 		deltaPos.Y -= speed*dt
 	}
-	if player.CanMove(deltaPos) {
+	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
 		camPos = camPos.Add(deltaPos)
+		l.Hurt(player.bounds.Moved(player.offSet.Add(deltaPos)))
 	}
 
 	deltaPos = pixel.ZV
@@ -47,8 +55,9 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 		deltaPos.X += speed*dt
 	}
 
-	if player.CanMove(deltaPos) {
+	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
 		camPos = camPos.Add(deltaPos)
+		l.Hurt(player.bounds.Moved(player.offSet.Add(deltaPos)))
 	}
 }
 
@@ -61,5 +70,15 @@ func (l *Level1) Collides(playerR pixel.Rect) bool {
 	}
 
 	return false
+}
+
+func (l *Level1) Hurt(playerR pixel.Rect) {
+	zr := pixel.R(0, 0, 0, 0)
+	for _, r := range l.mineRects {
+		if r.Intersect(playerR) != zr {
+			player.Hurt(10)
+			return
+		}
+	}
 }
 

@@ -47,6 +47,7 @@ func (p *Player) CanMove(delta pixel.Vec) bool {
 
 func (p *Player) Update(dt float64, offset pixel.Vec) {
 	p.offSet = offset
+
 	if p.hitFade < 255 {
 		hf := int(p.hitFade)
 		hf += int(500*dt)
