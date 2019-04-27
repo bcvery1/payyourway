@@ -76,6 +76,7 @@ type Shop struct {
 	imd *imdraw.IMDraw
 	items []*Item
 	nextLevel int
+	returnText *text.Text
 }
 
 func (s *Shop) Update(dt float64, win *pixelgl.Window) {
@@ -102,6 +103,9 @@ func (s *Shop) Hurt(pixel.Rect) {}
 
 func (s *Shop) Init(pixel.Rect) {
 	s.imd = imdraw.New(nil)
+
+	s.returnText = text.New(pixel.V(winBounds.W()-120, 5), atlas)
+	_, _ = fmt.Fprint(s.returnText, "Return")
 }
 
 func (s *Shop) AddItem(cost float64, name string) {
@@ -131,6 +135,11 @@ func (s *Shop) Draw(win *pixelgl.Window) {
 	for _, i := range s.items {
 		i.Draw(s.imd, win)
 	}
+
+	s.imd.Push(pixel.V(winBounds.W() - 120, 5), pixel.V(winBounds.W()-5, 50))
+	s.imd.Rectangle(0)
+
+	s.returnText.Draw(win, pixel.IM.Scaled(s.returnText.Orig, 1))
 
 	s.imd.Draw(win)
 }
