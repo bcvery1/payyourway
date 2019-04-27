@@ -20,12 +20,13 @@ var (
 	winBounds = pixel.R(0, 0, 1920, 1080)
 	tmxMap *tilepix.Map
 
-	speed = 1280.
+	speed = 1280. /4
 
 	camPos = pixel.ZV
 	camZoom = 1.0
 
 	player *Player
+	lvlMan *LevelManager
 )
 
 func run() {
@@ -46,7 +47,7 @@ func run() {
 		panic(err)
 	}
 
-	lvlMan := NewLevelManager(winBounds)
+	lvlMan = NewLevelManager(winBounds)
 	player = NewPlayer()
 
 	last := time.Now()

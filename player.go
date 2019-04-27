@@ -19,7 +19,7 @@ func NewPlayer() *Player {
 
 	p := Player{
 		health: 100,
-		bounds: pixel.R(0, 0, 8, 8),
+		bounds: pixel.R(-4, -4, 4, 4),
 		sprites: []*pixel.Sprite{
 			pixel.NewSprite(pic, pixel.R(0, 0, 16, 16)),
 			pixel.NewSprite(pic, pixel.R(16, 0, 32, 16)),
@@ -31,8 +31,8 @@ func NewPlayer() *Player {
 	return &p
 }
 
-func (p *Player) CanMove(newPos pixel.Vec) bool {
-	return true
+func (p *Player) CanMove(delta pixel.Vec) bool {
+	return !lvlMan.CurrentLevel().Collides(p.bounds.Moved(p.offSet.Add(delta)))
 }
 
 func (p *Player) Update(dt float64, offset pixel.Vec) {

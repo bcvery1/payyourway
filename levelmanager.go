@@ -10,6 +10,7 @@ type Level interface {
 	Start()
 	Update(float64, *pixelgl.Window)
 	Draw(pixel.Target)
+	Collides(pixel.Rect) bool
 }
 
 type LevelManager struct {
@@ -40,9 +41,13 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 }
 
 func (lm *LevelManager) Update(dt float64, win *pixelgl.Window) {
-	lm.levels[lm.currentLevel].Update(dt, win)
+	lm.CurrentLevel().Update(dt, win)
 }
 
 func (lm *LevelManager) Draw(target pixel.Target) {
-	lm.levels[lm.currentLevel].Draw(target)
+	lm.CurrentLevel().Draw(target)
+}
+
+func (lm *LevelManager) CurrentLevel() Level {
+	return lm.levels[lm.currentLevel]
 }
