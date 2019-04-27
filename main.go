@@ -5,6 +5,9 @@ import (
 	"image/color"
 	"time"
 
+	_ "image/png"
+
+	"github.com/bcvery1/tilepix"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 )
@@ -12,9 +15,17 @@ import (
 var (
 	backingColour = color.RGBA{0, 0, 0, 0}
 	winBounds = pixel.R(0, 0, 1280, 720)
+	tmxMap *tilepix.Map
 )
 
 func run() {
+	var err error
+	tmxMap, err = tilepix.ReadFile("assets/map.tmx")
+	if err != nil {
+		panic(err)
+	}
+
+
 	cfg := pixelgl.WindowConfig{
 		Title: "Pay You Way",
 		Bounds: winBounds,

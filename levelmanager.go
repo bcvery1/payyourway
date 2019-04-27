@@ -20,12 +20,12 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 	lm := LevelManager{
 		currentLevel: 0,
 		levels: []Level{
-			&Menu{},
+			//&Menu{},
 			&Level1{},
-			&Level2{},
-			&Level3{},
-			&Level4{},
-			&Shop{},
+			//&Level2{},
+			//&Level3{},
+			//&Level4{},
+			//&Shop{},
 		},
 	}
 
