@@ -52,3 +52,8 @@ func (lm *LevelManager) Draw(win *pixelgl.Window) {
 func (lm *LevelManager) CurrentLevel() Level {
 	return lm.levels[lm.currentLevel]
 }
+
+func (lm *LevelManager) StartLevel(index int) {
+	lm.currentLevel = index
+	lm.CurrentLevel().Start()
+}

@@ -146,3 +146,7 @@ func (s *Shop) Draw(target pixel.Target) {
 func (s *Shop) Start() {
 	camPos = winBounds.Center()
 }
+
+func (s *Shop) ClearItems() {
+	s.items = []*Item{}
+}
