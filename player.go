@@ -17,6 +17,8 @@ type Player struct {
 	imd *imdraw.IMDraw
 	hitFade uint8
 	inventory []Item
+	shield float64
+	maxShield float64
 }
 
 func NewPlayer() *Player {
@@ -37,6 +39,8 @@ func NewPlayer() *Player {
 		},
 		imd: imdraw.New(nil),
 		hitFade: 255,
+		shield: 50,
+		maxShield: 50,
 	}
 
 	return &p
@@ -76,15 +80,15 @@ func (p *Player) Draw(win *pixelgl.Window) {
 func (p *Player) drawHUD(target pixel.Target) {
 	p.imd.Clear()
 
-	startV := winBounds.Center().Add(p.offSet).Sub(pixel.V(70, 240))
-	size := pixel.V(30, 200)
+	startV := winBounds.Center().Add(p.offSet).Sub(pixel.V(25, 210))
+	size := pixel.V(20, 200)
 
 	// Health backing
 	p.imd.Color = color.Black
 	p.imd.Push(
 		startV,
 		startV.Add(size),
-		)
+	)
 	p.imd.Rectangle(0)
 
 	// Health indicator
@@ -101,8 +105,38 @@ func (p *Player) drawHUD(target pixel.Target) {
 	p.imd.Push(
 		startV,
 		startV.Add(size),
-		)
+	)
 	p.imd.Rectangle(2)
+
+	if p.shield > 0 {
+		// Shield
+		startV := winBounds.Center().Add(p.offSet).Sub(pixel.V(55, 210))
+
+		// Shield backing
+		p.imd.Color = color.Black
+		p.imd.Push(
+			startV,
+			startV.Add(size),
+		)
+		p.imd.Rectangle(0)
+
+		// Shield indicator
+		hSize := size.ScaledXY(pixel.V(1, p.shield/p.maxShield))
+		p.imd.Color = color.RGBA{R: 0x43, G: 0x6d, B: 0xda, A: 0x00}
+		p.imd.Push(
+			startV,
+			startV.Add(hSize),
+		)
+		p.imd.Rectangle(0)
+
+		// Shield container
+		p.imd.Color = pixel.RGB(0x71, 0x25, 0x16)
+		p.imd.Push(
+			startV,
+			startV.Add(size),
+		)
+		p.imd.Rectangle(2)
+	}
 
 	p.imd.Draw(target)
 }
@@ -111,8 +145,20 @@ func (p *Player) Hurt(hp float64) {
 	if p.hitFade < 255 {
 		return
 	}
-	p.health -= hp
+
 	p.hitFade = 150
+
+	excess := hp - p.shield
+	p.shield -= hp
+	if excess > 0 {
+		p.shield = 0
+		p.maxShield = 0
+		hp = excess
+	} else {
+		return
+	}
+
+	p.health -= hp
 
 	if p.health <= 0 {
 		p.Die()

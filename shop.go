@@ -47,6 +47,24 @@ func (i *Item) winPos() pixel.Rect {
 
 func (i *Item) Buy() {
 	player.Hurt(i.cost)
+
+	switch i.name {
+	case "Light Shield":
+		player.shield += 20
+		player.maxShield += 20
+	case "Shield":
+		player.shield += 40
+		player.maxShield += 40
+	case "Heavy Shield":
+		player.shield += 60
+		player.maxShield+= 60
+	case "Max HP Boost":
+		player.maxHealth += 20
+	case "Flares":
+		player.inventory = append(player.inventory, *i)
+	default:
+		fmt.Println(i.name)
+	}
 }
 
 func (i *Item) Draw (imd *imdraw.IMDraw, target pixel.Target) {
