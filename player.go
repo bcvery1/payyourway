@@ -9,37 +9,32 @@ import (
 )
 
 type Player struct {
-	health float64
+	health    float64
 	maxHealth float64
-	bounds pixel.Rect
-	sprites []*pixel.Sprite
-	offSet pixel.Vec
-	imd *imdraw.IMDraw
-	hitFade uint8
+	bounds    pixel.Rect
+	sprites   []*pixel.Sprite
+	offSet    pixel.Vec
+	imd       *imdraw.IMDraw
+	hitFade   uint8
 	inventory []Item
-	shield float64
+	shield    float64
 	maxShield float64
 }
 
 func NewPlayer() *Player {
-	pic, err := loadPicture("assets/tilemap.png")
-	if err != nil {
-		panic(err)
-	}
-
 	p := Player{
-		health: 100,
+		health:    100,
 		maxHealth: 100,
-		bounds: pixel.R(-4, -4, 4, 4),
+		bounds:    pixel.R(-4, -4, 4, 4),
 		sprites: []*pixel.Sprite{
-			pixel.NewSprite(pic, pixel.R(0, 0, 16, 16)),
-			pixel.NewSprite(pic, pixel.R(16, 0, 32, 16)),
-			pixel.NewSprite(pic, pixel.R(32, 0, 48, 16)),
-			pixel.NewSprite(pic, pixel.R(48, 0, 64, 16)),
+			pixel.NewSprite(tilemapPic, pixel.R(0, 0, 16, 16)),
+			pixel.NewSprite(tilemapPic, pixel.R(16, 0, 32, 16)),
+			pixel.NewSprite(tilemapPic, pixel.R(32, 0, 48, 16)),
+			pixel.NewSprite(tilemapPic, pixel.R(48, 0, 64, 16)),
 		},
-		imd: imdraw.New(nil),
-		hitFade: 255,
-		shield: 50,
+		imd:       imdraw.New(nil),
+		hitFade:   255,
+		shield:    50,
 		maxShield: 50,
 	}
 
@@ -55,7 +50,7 @@ func (p *Player) Update(dt float64, offset pixel.Vec) {
 
 	if p.hitFade < 255 {
 		hf := int(p.hitFade)
-		hf += int(500*dt)
+		hf += int(500 * dt)
 		if hf > 255 {
 			p.hitFade = 255
 		} else {
@@ -93,7 +88,7 @@ func (p *Player) drawHUD(target pixel.Target) {
 
 	// Health indicator
 	hSize := size.ScaledXY(pixel.V(1, p.health/p.maxHealth))
-	p.imd.Color = color.RGBA{R: 0x00, G: 0xff, B:0x00, A:0x00}
+	p.imd.Color = color.RGBA{R: 0x00, G: 0xff, B: 0x00, A: 0x00}
 	p.imd.Push(
 		startV,
 		startV.Add(hSize),

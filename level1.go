@@ -5,30 +5,51 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 )
 
+var (
+	gunPos = []pixel.Vec{
+		pixel.V(3785, 3300),
+		pixel.V(4260, 3604),
+		pixel.V(3610, 3561),
+		pixel.V(3610, 3689),
+		pixel.V(3604, 3993),
+		pixel.V(4046, 4138),
+		pixel.V(3701, 4372),
+		pixel.V(4261, 4596),
+	}
+)
+
 type Level1 struct {
 	collisionRects []pixel.Rect
-	mineRects []pixel.Rect
+	mineRects      []pixel.Rect
+	guns           []*Gun
 }
 
 func (l *Level1) Init(pixel.Rect) {
 	collisionOjLayer := tmxMap.GetObjectLayerByName("Level1Collisions")
 	for _, obj := range collisionOjLayer.Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.collisionRects = append(l.collisionRects, r)
 		}
 	}
 
 	for _, obj := range tmxMap.GetObjectLayerByName("CommonCollisions").Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.collisionRects = append(l.collisionRects, r)
 		}
 	}
 
 	mineObjLayer := tmxMap.GetObjectLayerByName("mines")
 	for _, obj := range mineObjLayer.Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.mineRects = append(l.mineRects, r)
 		}
+	}
+
+	for _, gp := range gunPos {
+		l.guns = append(l.guns, &Gun{
+			pos:   gp,
+			speed: 5,
+		})
 	}
 }
 
@@ -44,10 +65,10 @@ func (l *Level1) Start() {
 func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 	deltaPos := pixel.ZV
 	if win.Pressed(pixelgl.KeyW) {
-		deltaPos.Y += speed*dt
+		deltaPos.Y += speed * dt
 	}
 	if win.Pressed(pixelgl.KeyS) {
-		deltaPos.Y -= speed*dt
+		deltaPos.Y -= speed * dt
 	}
 	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
 		camPos = camPos.Add(deltaPos)
@@ -56,10 +77,10 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 
 	deltaPos = pixel.ZV
 	if win.Pressed(pixelgl.KeyA) {
-		deltaPos.X -= speed*dt
+		deltaPos.X -= speed * dt
 	}
 	if win.Pressed(pixelgl.KeyD) {
-		deltaPos.X += speed*dt
+		deltaPos.X += speed * dt
 	}
 
 	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
@@ -71,6 +92,10 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 	if shopName := l.ReachedShop(); shopName != "" {
 		lvlMan.StartLevel(ShopInd)
 		lvlMan.Shop().Setup(shopName)
+	}
+
+	for _, g := range l.guns {
+		g.Update(dt)
 	}
 }
 
@@ -105,4 +130,3 @@ func (l *Level1) ReachedShop() string {
 
 	return ""
 }
-

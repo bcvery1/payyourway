@@ -26,8 +26,8 @@ type Level interface {
 }
 
 type LevelManager struct {
-	currentLevel int
-	levels []Level
+	currentLevel  int
+	levels        []Level
 	previousLevel int
 }
 
@@ -68,6 +68,9 @@ func (lm *LevelManager) StartLevel(index int) {
 	lm.previousLevel = lm.currentLevel
 	lm.currentLevel = index
 	lm.CurrentLevel().Start()
+
+	rockets = make(map[int]*rocket)
+	fires = make(map[int]*fire)
 }
 
 func (lm *LevelManager) RestartLevel() {

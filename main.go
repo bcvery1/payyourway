@@ -5,6 +5,7 @@ import (
 	"image"
 	"image/color"
 	"math"
+	"math/rand"
 	"os"
 	"time"
 
@@ -17,20 +18,48 @@ import (
 	"golang.org/x/image/font/basicfont"
 )
 
+func init() {
+	var err error
+	tilemapPic, err = loadPicture("assets/tilemap.png")
+	if err != nil {
+		panic(err)
+	}
+
+	rocketSprite = pixel.NewSprite(tilemapPic, pixel.R(0, 31*16, 16, 32*16))
+
+	fireSprites = []*pixel.Sprite{
+		pixel.NewSprite(tilemapPic, pixel.R(0, 32*16, 16, 33*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(16, 32*16, 32, 33*16)),
+		//pixel.NewSprite(tilemapPic, pixel.R()),
+		//pixel.NewSprite(tilemapPic, pixel.R()),
+	}
+
+	smokeSprites = []*pixel.Sprite{
+		pixel.NewSprite(tilemapPic, pixel.R(64, 32*16, 80, 33*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(80, 32*16, 96, 33*16)),
+		//pixel.NewSprite(tilemapPic, pixel.R()),
+		//pixel.NewSprite(tilemapPic, pixel.R()),
+	}
+
+	rand.Seed(time.Now().UnixNano())
+}
+
 var (
-	backingColour = color.RGBA{0, 0, 0, 0}
-	winBounds = pixel.R(0, 0, 1920, 1080)
-	tmxMap *tilepix.Map
+	backingColour = color.RGBA{R: 0, G: 0, B: 0, A: 0}
+	winBounds     = pixel.R(0, 0, 1024, 720)
+	tmxMap        *tilepix.Map
 
-	speed = 1280. /4
+	speed = 1280. / 4
 
-	camPos = pixel.ZV
+	camPos  = pixel.ZV
 	camZoom = 1.0
 
 	player *Player
 	lvlMan *LevelManager
 
 	atlas *text.Atlas
+
+	tilemapPic pixel.Picture
 )
 
 func run() {
@@ -41,9 +70,9 @@ func run() {
 	}
 
 	cfg := pixelgl.WindowConfig{
-		Title: "Pay Your Way",
+		Title:  "Pay Your Way",
 		Bounds: winBounds,
-		VSync: true,
+		VSync:  true,
 	}
 
 	win, err := pixelgl.NewWindow(cfg)
@@ -75,6 +104,12 @@ func run() {
 		lvlMan.Update(dt, win)
 
 		lvlMan.Draw(win)
+
+		UpdateRockets(dt)
+		DrawRockets(win)
+
+		UpdateFires(dt)
+		DrawFires(win)
 
 		win.Update()
 
