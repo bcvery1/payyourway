@@ -81,7 +81,7 @@ func run() {
 	atlas = text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
 	lvlMan = NewLevelManager(winBounds)
-	lvlMan.StartLevel(Level1Ind)
+	lvlMan.StartLevel(MenuInd)
 	player = NewPlayer()
 
 	last := time.Now()

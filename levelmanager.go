@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	//MenuInd = iota
-	Level1Ind = iota
+	MenuInd = iota
+	Level1Ind
 	Level2Ind
 	Level3Ind
 	Level4Ind
@@ -35,7 +35,7 @@ func NewLevelManager(bounds pixel.Rect) *LevelManager {
 	lm := LevelManager{
 		currentLevel: 0,
 		levels: []Level{
-			//&Menu{},
+			&Menu{},
 			&Level1{},
 			&Level2{},
 			&Level3{},
