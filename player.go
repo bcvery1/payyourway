@@ -135,7 +135,6 @@ func (p *Player) drawHUD(target pixel.Target) {
 }
 
 func (p *Player) Hurt(hp float64) {
-	return
 	if p.hitFade < 255 {
 		return
 	}
