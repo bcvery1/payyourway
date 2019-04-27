@@ -13,7 +13,7 @@ type End struct {
 }
 
 func (e *End) Init(pixel.Rect) {
-	e.text = text.New(winBounds.Center(), atlas)
+	e.text = text.New(winBounds.Center().Sub(pixel.V(45, -25)), atlas)
 	_, _ = fmt.Fprint(e.text, "The\nEnd")
 }
 
