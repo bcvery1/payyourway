@@ -5,6 +5,7 @@ import (
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
+	"github.com/faiface/pixel/pixelgl"
 )
 
 type Player struct {
@@ -14,6 +15,7 @@ type Player struct {
 	sprites []*pixel.Sprite
 	offSet pixel.Vec
 	imd *imdraw.IMDraw
+	hitFade uint8
 }
 
 func NewPlayer() *Player {
@@ -33,6 +35,7 @@ func NewPlayer() *Player {
 			pixel.NewSprite(pic, pixel.R(48, 0, 64, 16)),
 		},
 		imd: imdraw.New(nil),
+		hitFade: 255,
 	}
 
 	return &p
@@ -44,13 +47,28 @@ func (p *Player) CanMove(delta pixel.Vec) bool {
 
 func (p *Player) Update(dt float64, offset pixel.Vec) {
 	p.offSet = offset
+	if p.hitFade < 255 {
+		hf := int(p.hitFade)
+		hf += int(500*dt)
+		if hf > 255 {
+			p.hitFade = 255
+		} else {
+			p.hitFade = uint8(hf)
+		}
+	}
 }
 
-func (p *Player) Draw(target pixel.Target) {
+func (p *Player) Draw(win *pixelgl.Window) {
 	// TODO animate
-	p.sprites[0].Draw(target, pixel.IM.Moved(p.offSet))
+	p.sprites[0].Draw(win, pixel.IM.Moved(p.offSet))
 
-	p.drawHUD(target)
+	p.drawHUD(win)
+
+	if p.hitFade < 255 {
+		win.SetColorMask(color.RGBA{R: p.hitFade, B: 0x00, G: 0x00, A: 0x00})
+	} else {
+		win.SetColorMask(nil)
+	}
 }
 
 func (p *Player) drawHUD(target pixel.Target) {
@@ -85,4 +103,20 @@ func (p *Player) drawHUD(target pixel.Target) {
 	p.imd.Rectangle(2)
 
 	p.imd.Draw(target)
+}
+
+func (p *Player) Hurt(hp float64) {
+	if p.hitFade < 255 {
+		return
+	}
+	p.health -= hp
+	p.hitFade = 150
+
+	if p.health <= 0 {
+		p.Die()
+	}
+}
+
+func (p *Player) Die() {
+	panic("You died")
 }

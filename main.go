@@ -62,6 +62,10 @@ func run() {
 		win.SetMatrix(cam)
 		camZoom *= math.Pow(1.2, win.MouseScroll().Y)
 
+		if win.Pressed(pixelgl.KeyE) {
+			player.Hurt(10)
+		}
+
 		win.Clear(backingColour)
 
 		player.Update(dt, cam.Unproject(winBounds.Center()))
