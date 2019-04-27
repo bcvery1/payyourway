@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"image"
 	"image/color"
-	"math"
 	"math/rand"
 	"os"
 	"time"
@@ -30,15 +29,15 @@ func init() {
 	fireSprites = []*pixel.Sprite{
 		pixel.NewSprite(tilemapPic, pixel.R(0, 32*16, 16, 33*16)),
 		pixel.NewSprite(tilemapPic, pixel.R(16, 32*16, 32, 33*16)),
-		//pixel.NewSprite(tilemapPic, pixel.R()),
-		//pixel.NewSprite(tilemapPic, pixel.R()),
+		pixel.NewSprite(tilemapPic, pixel.R(32, 32*16, 48, 33*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(48, 32*16, 64, 33*16)),
 	}
 
 	smokeSprites = []*pixel.Sprite{
-		pixel.NewSprite(tilemapPic, pixel.R(64, 32*16, 80, 33*16)),
-		pixel.NewSprite(tilemapPic, pixel.R(80, 32*16, 96, 33*16)),
-		//pixel.NewSprite(tilemapPic, pixel.R()),
-		//pixel.NewSprite(tilemapPic, pixel.R()),
+		pixel.NewSprite(tilemapPic, pixel.R(0, 33*16, 16, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(16, 33*16, 32, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(32, 33*16, 48, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(48, 33*16, 64, 34*16)),
 	}
 
 	rand.Seed(time.Now().UnixNano())
@@ -51,8 +50,7 @@ var (
 
 	speed = 1280. / 6
 
-	camPos  = pixel.ZV
-	camZoom = 1.0
+	camPos = pixel.ZV
 
 	player *Player
 	lvlMan *LevelManager
@@ -94,9 +92,8 @@ func run() {
 		dt := time.Since(last).Seconds()
 		last = time.Now()
 
-		cam := pixel.IM.Scaled(camPos, camZoom).Moved(winBounds.Center().Sub(camPos))
+		cam := pixel.IM.Moved(winBounds.Center().Sub(camPos))
 		win.SetMatrix(cam)
-		camZoom *= math.Pow(1.2, win.MouseScroll().Y)
 
 		win.Clear(backingColour)
 
@@ -116,7 +113,7 @@ func run() {
 		frames++
 		select {
 		case <-second:
-			win.SetTitle(fmt.Sprintf("%s | FPS: %d | %v | %.2f", cfg.Title, frames, camPos, camZoom))
+			win.SetTitle(fmt.Sprintf("%s | FPS: %d | (%.2f, %.2f) ", cfg.Title, frames, camPos.X, camPos.Y))
 			frames = 0
 		default:
 		}
