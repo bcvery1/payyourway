@@ -15,6 +15,8 @@ const (
 )
 
 var (
+	guns = make([]*Gun, 0)
+
 	rockets     = make(map[int]*rocket)
 	rocketCount = 0
 
@@ -23,10 +25,27 @@ var (
 	rocketSprite *pixel.Sprite
 )
 
+func SetupGuns() {
+	for _, p := range tmxMap.GetObjectLayerByName("GunLocs").Objects {
+		if p, err := p.GetPoint(); err == nil {
+			NewGun(p)
+		}
+	}
+}
+
 type Gun struct {
 	pos       pixel.Vec
 	sinceLast float64
 	speed     float64
+}
+
+func NewGun(pos pixel.Vec) {
+	g := Gun{
+		pos:   pos,
+		speed: 5,
+	}
+
+	guns = append(guns, &g)
 }
 
 func (g *Gun) Update(dt float64) {
@@ -56,6 +75,18 @@ func (g *Gun) Fire() {
 
 	rockets[rocketCount] = &r
 	rocketCount++
+}
+
+func UpdateGuns(dt float64) {
+	for _, g := range guns {
+		g.Update(dt)
+	}
+
+	UpdateRockets(dt)
+}
+
+func DrawGuns(target pixel.Target) {
+	DrawRockets(target)
 }
 
 type rocket struct {

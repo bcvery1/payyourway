@@ -82,12 +82,15 @@ func run() {
 		panic(err)
 	}
 
+	_ = tmxMap.DrawAll(win, color.Transparent, pixel.IM)
+
 	atlas = text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
 	lvlMan = NewLevelManager(winBounds)
 	lvlMan.StartLevel(MenuInd)
 	player = NewPlayer()
 	SetupEnemies()
+	SetupGuns()
 
 	last := time.Now()
 	second := time.Tick(time.Second)
@@ -107,8 +110,8 @@ func run() {
 
 		lvlMan.Draw(win)
 
-		UpdateRockets(dt)
-		DrawRockets(win)
+		UpdateGuns(dt)
+		DrawGuns(win)
 
 		UpdateFires(dt)
 		DrawFires(win)

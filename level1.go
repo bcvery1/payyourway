@@ -5,23 +5,9 @@ import (
 	"github.com/faiface/pixel/pixelgl"
 )
 
-var (
-	lvl1gunPos = []pixel.Vec{
-		pixel.V(3785, 3300),
-		pixel.V(4260, 3604),
-		pixel.V(3610, 3561),
-		pixel.V(3610, 3689),
-		pixel.V(3604, 3993),
-		pixel.V(4046, 4138),
-		pixel.V(3701, 4372),
-		pixel.V(4261, 4596),
-	}
-)
-
 type Level1 struct {
 	collisionRects []pixel.Rect
 	mineRects      []pixel.Rect
-	guns           []*Gun
 }
 
 func (l *Level1) Init(pixel.Rect) {
@@ -43,13 +29,6 @@ func (l *Level1) Init(pixel.Rect) {
 		if r, err := obj.GetRect(); err == nil {
 			l.mineRects = append(l.mineRects, r)
 		}
-	}
-
-	for _, gp := range lvl1gunPos {
-		l.guns = append(l.guns, &Gun{
-			pos:   gp,
-			speed: 5,
-		})
 	}
 }
 
@@ -92,10 +71,6 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 	if shopName := l.ReachedShop(); shopName != "" {
 		lvlMan.StartLevel(ShopInd)
 		lvlMan.Shop().Setup(shopName)
-	}
-
-	for _, g := range l.guns {
-		g.Update(dt)
 	}
 }
 
