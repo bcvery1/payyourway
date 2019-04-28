@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	buttonsAcross = 4
+	buttonsAcross = 3
 	buttonsDown   = 3
 )
 
@@ -150,7 +150,7 @@ func (s *Shop) AddItem(cost float64, name, desc string) {
 
 	i.text = text.New(i.winPos().Min.Add(pixel.V(20, itemHeight-30)), atlas)
 	i.text.Color = color.RGBA{R: 0xbb, G: 0xc5, B: 0xda, A: 0x00}
-	_, _ = fmt.Fprintf(i.text, "%s\n\nCost (hp): %.2f", i.name, i.cost)
+	_, _ = fmt.Fprintf(i.text, "%s\n\nCost (hp): %.2f\n%s", i.name, i.cost, desc)
 
 	s.items = append(s.items, &i)
 }
@@ -189,17 +189,17 @@ func (s *Shop) Setup(shopName string) {
 	case "FirstLevelMid":
 		s.nextLevel = Level1Ind
 
-		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
-		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
-		s.AddItem(99, "Max HP Boost", "Permanently adds 20 extra HP")
-		s.AddItem(150, "Flares", "One use deploy flares")
+		s.AddItem(45, "Light Shield", "Provides 20\npoints of\nprotection")
+		s.AddItem(45, "Light Shield", "Provides 20\npoints of\nprotection")
+		s.AddItem(99, "Max HP Boost", "Permanently adds\n20 extra HP")
+		s.AddItem(150, "Flares", "One use deploy\nflares")
 	case "SecondLevelMid":
 		s.nextLevel = Level2Ind
 
-		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
-		s.AddItem(99, "Max HP Boost", "Permanently adds 20 extra HP")
-		s.AddItem(80, "Boat", "Allows travel over water")
-		s.AddItem(200, "Invincibility", "Provides 10 seconds of invincibility")
+		s.AddItem(45, "Light Shield", "Provides 20\npoints of\nprotection")
+		s.AddItem(99, "Max HP Boost", "Permanently adds\n20 extra HP")
+		s.AddItem(80, "Boat", "Allows travel over\nwater")
+		s.AddItem(200, "Invincibility", "Provides 10\nseconds of\ninvincibility")
 	case "ThirdLevelMid":
 		s.nextLevel = Level3Ind
 	default:
