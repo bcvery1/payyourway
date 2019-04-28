@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1380">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1415">
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="1600" columns="40">
   <image source="tilemap.png" width="640" height="640"/>
  </tileset>
@@ -1254,6 +1254,51 @@
   <object id="1092" x="3355.33" y="2034">
    <point/>
   </object>
+  <object id="1400" x="2440" y="5346.67">
+   <point/>
+  </object>
+  <object id="1401" x="1422.67" y="4808">
+   <point/>
+  </object>
+  <object id="1402" x="84" y="4896">
+   <point/>
+  </object>
+  <object id="1403" x="68" y="4822.67">
+   <point/>
+  </object>
+  <object id="1404" x="630.667" y="2400">
+   <point/>
+  </object>
+  <object id="1405" x="484" y="2334.67">
+   <point/>
+  </object>
+  <object id="1406" x="286.667" y="2266.67">
+   <point/>
+  </object>
+  <object id="1407" x="2844" y="2270.67">
+   <point/>
+  </object>
+  <object id="1408" x="3005.33" y="3581.33">
+   <point/>
+  </object>
+  <object id="1409" x="432" y="3798.67">
+   <point/>
+  </object>
+  <object id="1410" x="376" y="3020">
+   <point/>
+  </object>
+  <object id="1411" x="334.667" y="3182.67">
+   <point/>
+  </object>
+  <object id="1412" x="1673.33" y="5242.67">
+   <point/>
+  </object>
+  <object id="1413" x="1858.67" y="5082.67">
+   <point/>
+  </object>
+  <object id="1414" x="1525.33" y="5438.67">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup name="Level3Collisions"/>
  <objectgroup name="Level4Collisions">
@@ -1496,6 +1541,122 @@
   <object id="1377" x="3184.33" y="3954" width="13.3333" height="34.6667"/>
   <object id="1378" x="3154" y="3954.33" width="29.6667" height="13"/>
   <object id="1379" x="3155.33" y="3968.33" width="12.6667" height="2.33333"/>
+ </objectgroup>
+ <objectgroup name="PowerUps">
+  <object id="1380" type="health" x="3019.5" y="6396">
+   <properties>
+    <property name="health" type="int" value="50"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1381" type="health" x="5040" y="7259.5">
+   <properties>
+    <property name="health" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1382" type="maxhealth" x="4344" y="4344.33">
+   <properties>
+    <property name="health" type="int" value="20"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1383" type="health" x="7465.5" y="2202">
+   <properties>
+    <property name="health" type="int" value="40"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1384" type="health" x="7274" y="3271.5">
+   <properties>
+    <property name="health" type="int" value="-200"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1385" type="shield" x="7000.5" y="2297.5">
+   <properties>
+    <property name="shield" type="int" value="20"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1386" type="maxhealth" x="5721.33" y="2409.33">
+   <properties>
+    <property name="health" type="int" value="50"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1387" type="health" x="3639.33" y="1704.67">
+   <properties>
+    <property name="health" type="int" value="30"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1388" type="maxhealth" x="3682.67" y="1675.67">
+   <properties>
+    <property name="health" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1389" type="shield" x="3696.33" y="1721.33">
+   <properties>
+    <property name="shield" type="int" value="20"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1390" type="maxhealth" x="4257.33" y="1274">
+   <properties>
+    <property name="health" type="int" value="40"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1392" type="health" x="2756" y="902.667">
+   <properties>
+    <property name="health" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1393" type="health" x="5241.33" y="282">
+   <properties>
+    <property name="health" type="int" value="40"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1394" type="shield" x="6154" y="938.667">
+   <properties>
+    <property name="shield" type="int" value="20"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1395" type="shield" x="7016.67" y="1354">
+   <properties>
+    <property name="shield" type="int" value="-20"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1396" type="health" x="3064" y="184">
+   <properties>
+    <property name="health" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1397" type="maxhealth" x="54.6667" y="2249">
+   <properties>
+    <property name="health" type="int" value="200"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1398" type="health" x="1836" y="3356">
+   <properties>
+    <property name="health" type="int" value="15"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="1399" type="maxhealth" x="2425.33" y="3788">
+   <properties>
+    <property name="health" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
  <layer name="backgroundupper" width="500" height="500">
   <data encoding="csv">

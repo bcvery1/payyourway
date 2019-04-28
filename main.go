@@ -63,6 +63,12 @@ func init() {
 		"Flares": pixel.NewSprite(tilemapPic, pixel.R(16, 30*16, 32, 31*16)),
 	}
 
+	powerupSprites = map[action]*pixel.Sprite{
+		"health":    pixel.NewSprite(tilemapPic, pixel.R(32, 30*16, 48, 31*16)),
+		"maxhealth": pixel.NewSprite(tilemapPic, pixel.R(32, 30*16, 48, 31*16)),
+		"shield":    pixel.NewSprite(tilemapPic, pixel.R(48, 30*16, 64, 31*16)),
+	}
+
 	rand.Seed(time.Now().UnixNano())
 }
 
@@ -115,6 +121,7 @@ func run() {
 	SetupGuns()
 	SetupAudio()
 	SetupAnnouncements()
+	SetupPowerups()
 
 	last := time.Now()
 	second := time.Tick(time.Second)
@@ -149,6 +156,9 @@ func run() {
 
 		UpdateAnnouncements(dt)
 		DrawAnnouncements(win)
+
+		UpdatePowerups()
+		DrawPowerups(win)
 
 		if win.JustPressed(pixelgl.MouseButtonLeft) {
 			v := cam.Unproject(win.MousePosition())
