@@ -27,7 +27,7 @@ func SetupAnnouncements() {
 	resetAnnouncemnts()
 
 	t = text.New(pixel.ZV, atlas)
-	t.Color = color.Black
+	t.Color = color.RGBA{R: 0x00, G: 0x2f, B: 0x5f, A: 0xff}
 
 	go listen()
 }
@@ -58,10 +58,9 @@ func DrawAnnouncements(target pixel.Target) {
 		return
 	}
 
-	offset := player.offSet.Sub(t.Bounds().Center())
+	offset := player.offSet.Sub(t.Bounds().Max)
 	mask := color.RGBA{R: alpha, G: alpha, B: alpha, A: 255 - alpha}
 	t.DrawColorMask(target, pixel.IM.Moved(offset).Scaled(offset, scale), mask)
-	//t.Draw(target, pixel.IM.Moved(offset).Scaled(offset, scale))
 }
 
 func Announce(text string) {
