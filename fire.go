@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 
 	"github.com/faiface/pixel"
@@ -24,7 +25,7 @@ var (
 	smokes     = make(map[int]*Smoke)
 	smokeIndex int
 
-	fadeRate = 0.6
+	fadeRate = 0.9
 	growRate = 0.6
 
 	initFireFade = 1.
@@ -50,6 +51,7 @@ type fire struct {
 }
 
 func NewFire(pos, vel pixel.Vec) {
+	fmt.Println(vel)
 	inc(fireCount)
 
 	f := fire{
@@ -125,7 +127,7 @@ func NewSmoke(pos, vel pixel.Vec) {
 	s := Smoke{
 		id:        smokeIndex,
 		pos:       diviate(pos),
-		vel:       diviate(vel),
+		vel:       diviate(vel.Scaled(10)),
 		rate:      ((rand.Float64() * (maxRate - minRate)) + minRate) / 2,
 		smokeFade: 1.2,
 		scale:     2,

@@ -150,7 +150,7 @@ func (r *rocket) explode() {
 		player.Hurt(15)
 	}
 
-	NewFire(r.pos, pixel.ZV)
+	NewFire(r.pos, r.dir.Unit().Scaled(rocketAcc*30))
 }
 
 func UpdateRockets(dt float64) {

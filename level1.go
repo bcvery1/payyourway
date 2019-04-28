@@ -76,6 +76,7 @@ func (l *Level1) Update(dt float64, win *pixelgl.Window) {
 }
 
 func (l *Level1) Collides(playerR pixel.Rect) bool {
+	return false
 	zr := pixel.R(0, 0, 0, 0)
 	for _, r := range l.collisionRects {
 		if r.Intersect(playerR) != zr {
@@ -87,6 +88,7 @@ func (l *Level1) Collides(playerR pixel.Rect) bool {
 }
 
 func (l *Level1) Hurt(playerR pixel.Rect) {
+	return
 	zr := pixel.R(0, 0, 0, 0)
 	for _, r := range l.mineRects {
 		if r.Intersect(playerR) != zr {
