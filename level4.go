@@ -103,7 +103,12 @@ func (l *Level4) Update(dt float64, win *pixelgl.Window) {
 
 	// Check if we've reached a shop
 	if shopName := l.ReachedShop(); shopName != "" {
-		lvlMan.StartLevel(EndInd)
+		if shopName == "Main" {
+			lvlMan.StartLevel(EndInd)
+			return
+		}
+		lvlMan.StartLevel(ShopInd)
+		lvlMan.Shop().Setup(shopName)
 	}
 }
 

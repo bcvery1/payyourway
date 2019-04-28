@@ -239,7 +239,7 @@ func (s *Shop) Setup(shopName string) {
 		s.AddItem(99, "Max HP Boost", "Permanently adds\n20 extra HP")
 		s.AddItem(200, "Invincibility", "Provides 10\nseconds of\ninvincibility")
 	case "FourthLevelMid":
-		s.nextLevel = EndInd
+		s.nextLevel = Level4Ind
 
 		s.AddItem(45, "Light Shield", "Provides 20\npoints of\nprotection")
 		s.AddItem(80, "Shield", "Provides 40\npoints of\nprotection")
