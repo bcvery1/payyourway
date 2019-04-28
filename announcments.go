@@ -18,7 +18,7 @@ var (
 	alpha     uint8
 
 	scaleRate = 2.5
-	alphaRate = 2.
+	alphaRate = 3.
 
 	t *text.Text
 )
