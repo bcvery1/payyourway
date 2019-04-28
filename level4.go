@@ -42,6 +42,8 @@ func (l *Level4) Init(pixel.Rect) {
 
 	l.gravityOn, _ = tmxMap.GetObjectByName("platformer")[0].GetRect()
 	l.gravityOff, _ = tmxMap.GetObjectByName("2d")[0].GetRect()
+
+	l.gravity = true
 }
 
 func (l *Level4) Start() {
@@ -51,6 +53,8 @@ func (l *Level4) Start() {
 }
 
 func (l *Level4) Update(dt float64, win *pixelgl.Window) {
+	l.checkGravity(player.CollisionBox())
+
 	deltaPos := pixel.ZV
 	if win.Pressed(pixelgl.KeyA) {
 		deltaPos.X -= speed * dt
@@ -95,6 +99,11 @@ func (l *Level4) Update(dt float64, win *pixelgl.Window) {
 			camPos = camPos.Add(deltaPos)
 			l.Hurt(player.CollisionBox().Moved(deltaPos))
 		}
+	}
+
+	// Check if we've reached a shop
+	if shopName := l.ReachedShop(); shopName != "" {
+		lvlMan.StartLevel(EndInd)
 	}
 }
 
