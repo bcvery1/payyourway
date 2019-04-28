@@ -26,6 +26,7 @@ type Player struct {
 	shield           float64
 	maxShield        float64
 	boatHealth       float64
+	jumpBoost        int
 }
 
 func (p *Player) Sprites() []*pixel.Sprite {
@@ -55,8 +56,9 @@ func NewPlayer() *Player {
 			pixel.NewSprite(tilemapPic, pixel.R(32, 0, 48, 16)),
 			pixel.NewSprite(tilemapPic, pixel.R(48, 0, 64, 16)),
 		},
-		imd:     imdraw.New(nil),
-		hitFade: 255,
+		imd:       imdraw.New(nil),
+		hitFade:   255,
+		jumpBoost: 1,
 	}
 	p.aniRate = float64(len(p.sprites)) * 0.0375
 

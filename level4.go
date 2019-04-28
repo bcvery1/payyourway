@@ -61,7 +61,7 @@ func (l *Level4) Update(dt float64, win *pixelgl.Window) {
 	// Vertical
 	if !jumping {
 		if win.JustPressed(pixelgl.KeyW) {
-			vel = pixel.V(0, speed*2*dt)
+			vel = pixel.V(0, speed*2*dt*float64(player.jumpBoost))
 			jumping = true
 		}
 	}

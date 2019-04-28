@@ -70,6 +70,12 @@ func (i *Item) Buy() {
 	case "Boat":
 		player.inventory = append(player.inventory, *i)
 		Announce("Gained boat")
+	case "Invincibility":
+		player.inventory = append(player.inventory, *i)
+		Announce("Gain invincibility")
+	case "Super Jump":
+		player.jumpBoost = 2
+		Announce("Doubled jump")
 	default:
 	}
 }
