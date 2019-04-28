@@ -70,7 +70,7 @@ func (p *Player) useItem(item Item) {
 	switch item.name {
 	case "Boat":
 		Announce("Using boat")
-		p.boatHealth += 150
+		p.boatHealth += 2000
 	case "Flares":
 		Announce("Deployed flares")
 		NewFlare(p.CollisionBox().Center())
@@ -258,7 +258,6 @@ func (p *Player) Drown(hp float64) {
 
 	if p.boatHealth > 0 {
 		p.boatHealth -= hp
-		fmt.Println(p.boatHealth)
 		if p.boatHealth < 0 {
 			Announce("The boat broke")
 			p.boatHealth = 0
