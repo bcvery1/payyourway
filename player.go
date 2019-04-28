@@ -11,18 +11,37 @@ import (
 )
 
 type Player struct {
-	health     float64
-	maxHealth  float64
-	bounds     pixel.Rect
-	sprites    []*pixel.Sprite
-	offSet     pixel.Vec
-	imd        *imdraw.IMDraw
-	hitFade    uint8
-	drownFade  uint8
-	inventory  []Item
-	shield     float64
-	maxShield  float64
-	boatHealth float64
+	health           float64
+	maxHealth        float64
+	bounds           pixel.Rect
+	sprites          []*pixel.Sprite
+	currentSpriteInd int
+	aniSince         float64
+	aniRate          float64
+	offSet           pixel.Vec
+	imd              *imdraw.IMDraw
+	hitFade          uint8
+	drownFade        uint8
+	inventory        []Item
+	shield           float64
+	maxShield        float64
+	boatHealth       float64
+}
+
+func (p *Player) Sprites() []*pixel.Sprite {
+	return p.sprites
+}
+
+func (p *Player) PreviousSpriteInd() int {
+	return p.currentSpriteInd
+}
+
+func (p *Player) Tickers() (sinceLast float64, rate float64) {
+	return p.aniSince, p.aniRate
+}
+
+func (p *Player) SetLast(last float64) {
+	p.aniSince = last
 }
 
 func NewPlayer() *Player {
@@ -42,6 +61,7 @@ func NewPlayer() *Player {
 			{name: "Flares"},
 		},
 	}
+	p.aniRate = float64(len(p.sprites)) * 0.0375
 
 	return &p
 }
@@ -83,11 +103,13 @@ func (p *Player) Update(dt float64, offset pixel.Vec) {
 			p.drownFade = uint8(hf)
 		}
 	}
+
+	// Update sprite
+	p.currentSpriteInd = Sprite(p, dt)
 }
 
 func (p *Player) Draw(win *pixelgl.Window) {
-	// TODO animate
-	p.sprites[0].Draw(win, pixel.IM.Moved(p.offSet))
+	p.sprites[p.currentSpriteInd].Draw(win, pixel.IM.Moved(p.offSet))
 
 	p.drawHUD(win)
 	p.drawInv(win)
