@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 )
 
 type Player struct {
@@ -24,8 +26,8 @@ type Player struct {
 
 func NewPlayer() *Player {
 	p := Player{
-		health:    100,
-		maxHealth: 100,
+		health:    200,
+		maxHealth: 200,
 		bounds:    pixel.R(-4, -4, 4, 4),
 		sprites: []*pixel.Sprite{
 			pixel.NewSprite(tilemapPic, pixel.R(0, 0, 16, 16)),
@@ -73,6 +75,7 @@ func (p *Player) Draw(win *pixelgl.Window) {
 	p.sprites[0].Draw(win, pixel.IM.Moved(p.offSet))
 
 	p.drawHUD(win)
+	p.drawInv(win)
 
 	if p.hitFade < 255 {
 		win.SetColorMask(color.RGBA{R: p.hitFade, G: 0x44, B: 0x44, A: 0x00})
@@ -80,6 +83,28 @@ func (p *Player) Draw(win *pixelgl.Window) {
 		win.SetColorMask(color.RGBA{R: 0x44, G: 0x44, B: p.drownFade, A: 0x00})
 	} else {
 		win.SetColorMask(nil)
+	}
+}
+
+func (p *Player) drawInv(target pixel.Target) {
+	for i, item := range p.inventory {
+		j := i + 1
+		if j > 9 {
+			break
+		}
+
+		t := text.New(pixel.V(16*float64(j), 8), atlas)
+		_, _ = fmt.Fprint(t, j)
+
+		t.Draw(target, pixel.IM.Moved(p.offSet.Sub(winBounds.Center()).Add(t.Orig)))
+
+		s, ok := invSprites[item.name]
+		if !ok {
+			continue
+		}
+
+		shift := pixel.V(32*float64(j), 40)
+		s.Draw(target, pixel.IM.Moved(p.offSet.Sub(winBounds.Center()).Add(shift)))
 	}
 }
 

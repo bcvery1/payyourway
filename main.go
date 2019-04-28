@@ -50,6 +50,11 @@ func init() {
 		pixel.NewSprite(tilemapPic, pixel.R(48, 16, 64, 32)),
 	}
 
+	invSprites = map[string]*pixel.Sprite{
+		"Boat":   pixel.NewSprite(tilemapPic, pixel.R(0, 30*16, 16, 31*16)),
+		"Flares": pixel.NewSprite(tilemapPic, pixel.R(16, 30*16, 32, 31*16)),
+	}
+
 	rand.Seed(time.Now().UnixNano())
 }
 
@@ -68,6 +73,8 @@ var (
 	atlas *text.Atlas
 
 	tilemapPic pixel.Picture
+
+	invSprites map[string]*pixel.Sprite
 )
 
 func run() {
