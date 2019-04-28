@@ -16,6 +16,7 @@ type Player struct {
 	offSet    pixel.Vec
 	imd       *imdraw.IMDraw
 	hitFade   uint8
+	drownFade uint8
 	inventory []Item
 	shield    float64
 	maxShield float64
@@ -55,6 +56,16 @@ func (p *Player) Update(dt float64, offset pixel.Vec) {
 			p.hitFade = uint8(hf)
 		}
 	}
+
+	if p.drownFade < 255 {
+		hf := int(p.drownFade)
+		hf += int(500 * dt)
+		if hf > 255 {
+			p.drownFade = 255
+		} else {
+			p.drownFade = uint8(hf)
+		}
+	}
 }
 
 func (p *Player) Draw(win *pixelgl.Window) {
@@ -64,7 +75,9 @@ func (p *Player) Draw(win *pixelgl.Window) {
 	p.drawHUD(win)
 
 	if p.hitFade < 255 {
-		win.SetColorMask(color.RGBA{R: p.hitFade, B: 0x00, G: 0x00, A: 0x00})
+		win.SetColorMask(color.RGBA{R: p.hitFade, G: 0x44, B: 0x44, A: 0x00})
+	} else if p.drownFade < 255 {
+		win.SetColorMask(color.RGBA{R: 0x44, G: 0x44, B: p.drownFade, A: 0x00})
 	} else {
 		win.SetColorMask(nil)
 	}
@@ -142,6 +155,32 @@ func (p *Player) Hurt(hp float64) {
 	}
 
 	p.hitFade = 150
+
+	excess := hp - p.shield
+	p.shield -= hp
+	if excess > 0 {
+		p.shield = 0
+		p.maxShield = 0
+		hp = excess
+	} else {
+		return
+	}
+
+	p.health -= hp
+
+	if p.health <= 0 {
+		p.Die()
+	}
+}
+
+func (p *Player) Drown(hp float64) {
+	PlaySound(hurtSound)
+
+	if p.drownFade < 255 {
+		return
+	}
+
+	p.drownFade = 150
 
 	excess := hp - p.shield
 	p.shield -= hp
