@@ -108,7 +108,7 @@ func run() {
 	atlas = text.NewAtlas(basicfont.Face7x13, text.ASCII)
 
 	lvlMan = NewLevelManager(winBounds)
-	lvlMan.StartLevel(Level4Ind)
+	lvlMan.StartLevel(MenuInd)
 	player = NewPlayer()
 
 	SetupEnemies()
