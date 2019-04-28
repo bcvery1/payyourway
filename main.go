@@ -59,8 +59,9 @@ func init() {
 	}
 
 	invSprites = map[string]*pixel.Sprite{
-		"Boat":   pixel.NewSprite(tilemapPic, pixel.R(0, 30*16, 16, 31*16)),
-		"Flares": pixel.NewSprite(tilemapPic, pixel.R(16, 30*16, 32, 31*16)),
+		"Boat":          pixel.NewSprite(tilemapPic, pixel.R(0, 30*16, 16, 31*16)),
+		"Flares":        pixel.NewSprite(tilemapPic, pixel.R(16, 30*16, 32, 31*16)),
+		"Invincibility": pixel.NewSprite(tilemapPic, pixel.R(64, 33*16, 80, 34*16)),
 	}
 
 	powerupSprites = map[action]*pixel.Sprite{

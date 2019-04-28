@@ -27,6 +27,7 @@ type Player struct {
 	maxShield        float64
 	boatHealth       float64
 	jumpBoost        int
+	invincibleCount  float64
 }
 
 func (p *Player) Sprites() []*pixel.Sprite {
@@ -59,6 +60,9 @@ func NewPlayer() *Player {
 		imd:       imdraw.New(nil),
 		hitFade:   255,
 		jumpBoost: 1,
+		inventory: []Item{
+			{name: "Invincibility"},
+		},
 	}
 	p.aniRate = float64(len(p.sprites)) * 0.0375
 
@@ -73,6 +77,9 @@ func (p *Player) useItem(item Item) {
 	case "Flares":
 		Announce("Deployed flares")
 		NewFlare(p.CollisionBox().Center())
+	case "Invincibility":
+		Announce("Invicible!")
+		p.invincibleCount = 10
 	}
 }
 
@@ -101,6 +108,11 @@ func (p *Player) Update(dt float64, offset pixel.Vec) {
 		} else {
 			p.drownFade = uint8(hf)
 		}
+	}
+
+	p.invincibleCount -= dt
+	if p.invincibleCount < 0 {
+		p.invincibleCount = 0
 	}
 
 	// Update sprite
@@ -209,6 +221,10 @@ func (p *Player) drawHUD(target pixel.Target) {
 }
 
 func (p *Player) Hurt(hp float64) {
+	if p.invincibleCount > 0 {
+		return
+	}
+
 	PlaySound(hurtSound)
 
 	if p.hitFade < 255 {
@@ -235,6 +251,10 @@ func (p *Player) Hurt(hp float64) {
 }
 
 func (p *Player) Drown(hp float64) {
+	if p.invincibleCount > 0 {
+		return
+	}
+
 	if p.drownFade < 255 {
 		return
 	}
