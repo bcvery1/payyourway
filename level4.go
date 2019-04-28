@@ -14,6 +14,9 @@ var (
 type Level4 struct {
 	collisionRects []pixel.Rect
 	mineRects      []pixel.Rect
+	gravity        bool
+	gravityOn      pixel.Rect
+	gravityOff     pixel.Rect
 }
 
 func (l *Level4) Init(pixel.Rect) {
@@ -36,6 +39,9 @@ func (l *Level4) Init(pixel.Rect) {
 			l.mineRects = append(l.mineRects, r)
 		}
 	}
+
+	l.gravityOn, _ = tmxMap.GetObjectByName("platformer")[0].GetRect()
+	l.gravityOff, _ = tmxMap.GetObjectByName("2d")[0].GetRect()
 }
 
 func (l *Level4) Start() {
@@ -58,22 +64,37 @@ func (l *Level4) Update(dt float64, win *pixelgl.Window) {
 		l.Hurt(player.CollisionBox().Moved(deltaPos))
 	}
 
-	// Vertical
-	if !jumping {
-		if win.JustPressed(pixelgl.KeyW) {
-			vel = pixel.V(0, speed*2*dt*player.jumpBoost)
-			jumping = true
+	if l.gravity {
+		// Vertical
+		if !jumping {
+			if win.JustPressed(pixelgl.KeyW) {
+				vel = pixel.V(0, speed*2*dt*player.jumpBoost)
+				jumping = true
+			}
 		}
-	}
-	vel = vel.Sub(gravity.Scaled(dt))
+		vel = vel.Sub(gravity.Scaled(dt))
 
-	deltaPos = vel
-	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
-		camPos = camPos.Add(deltaPos)
-		l.Hurt(player.CollisionBox().Moved(deltaPos))
+		deltaPos = vel
+		if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
+			camPos = camPos.Add(deltaPos)
+			l.Hurt(player.CollisionBox().Moved(deltaPos))
+		} else {
+			vel = pixel.ZV
+			jumping = false
+		}
 	} else {
-		vel = pixel.ZV
-		jumping = false
+		deltaPos := pixel.ZV
+		if win.Pressed(pixelgl.KeyS) {
+			deltaPos.Y -= speed * dt
+		}
+		if win.Pressed(pixelgl.KeyW) {
+			deltaPos.Y += speed * dt
+		}
+
+		if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
+			camPos = camPos.Add(deltaPos)
+			l.Hurt(player.CollisionBox().Moved(deltaPos))
+		}
 	}
 }
 
@@ -116,4 +137,13 @@ func (l *Level4) ReachedShop() string {
 	}
 
 	return ""
+}
+
+func (l *Level4) checkGravity(playerR pixel.Rect) {
+	if l.gravityOn.Intersect(playerR) != pixel.R(0, 0, 0, 0) {
+		l.gravity = true
+	}
+	if l.gravityOff.Intersect(playerR) != pixel.R(0, 0, 0, 0) {
+		l.gravity = false
+	}
 }
