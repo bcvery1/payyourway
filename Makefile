@@ -18,6 +18,8 @@ zip: package
 	mv payyourway-windows-4.0-amd64.exe payyourway.exe
 	mv payyourway-darwin-10.6-amd64 payyourway_mac
 
+	mkdir dist
+
 	zip dist/windows.zip payyourway.exe -r assets
 	zip dist/mac.zip payyourway_mac -r assets
 	zip dist/linux.zip payyourway_linux -r assets
