@@ -33,7 +33,7 @@ func (l *Level2) Init(pixel.Rect) {
 	}
 
 	for _, obj := range tmxMap.GetObjectLayerByName("Water").Objects {
-		if r, err := obj.GetRect(); err != nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.water = append(l.water, r)
 		}
 	}
