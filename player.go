@@ -11,17 +11,18 @@ import (
 )
 
 type Player struct {
-	health    float64
-	maxHealth float64
-	bounds    pixel.Rect
-	sprites   []*pixel.Sprite
-	offSet    pixel.Vec
-	imd       *imdraw.IMDraw
-	hitFade   uint8
-	drownFade uint8
-	inventory []Item
-	shield    float64
-	maxShield float64
+	health     float64
+	maxHealth  float64
+	bounds     pixel.Rect
+	sprites    []*pixel.Sprite
+	offSet     pixel.Vec
+	imd        *imdraw.IMDraw
+	hitFade    uint8
+	drownFade  uint8
+	inventory  []Item
+	shield     float64
+	maxShield  float64
+	boatHealth float64
 }
 
 func NewPlayer() *Player {
@@ -40,6 +41,15 @@ func NewPlayer() *Player {
 	}
 
 	return &p
+}
+
+func (p *Player) useItem(item Item) {
+	switch item.name {
+	case "Boat":
+		p.boatHealth += 50
+	case "Flares":
+		fmt.Println("Deploy flares!")
+	}
 }
 
 func (p *Player) CanMove(delta pixel.Vec) bool {
@@ -207,14 +217,14 @@ func (p *Player) Drown(hp float64) {
 
 	p.drownFade = 150
 
-	excess := hp - p.shield
-	p.shield -= hp
-	if excess > 0 {
-		p.shield = 0
-		p.maxShield = 0
-		hp = excess
-	} else {
-		return
+	if p.boatHealth > 0 {
+		p.boatHealth -= hp
+		if p.boatHealth < 0 {
+			Announce("The boat broke")
+			p.boatHealth = 0
+		} else {
+			return
+		}
 	}
 
 	p.health -= hp
@@ -233,4 +243,70 @@ func (p *Player) Die() {
 
 func (p *Player) CollisionBox() pixel.Rect {
 	return p.bounds.Moved(p.offSet)
+}
+
+func (p *Player) UpdateInventory(win *pixelgl.Window) {
+	if win.JustPressed(pixelgl.Key1) {
+		if len(p.inventory) < 1 {
+			return
+		}
+		p.useItem(p.inventory[0])
+		p.inventory = p.inventory[1:]
+
+	} else if win.JustPressed(pixelgl.Key2) {
+		if len(p.inventory) < 2 {
+			return
+		}
+		p.useItem(p.inventory[1])
+		p.inventory = append(p.inventory[:1], p.inventory[2:]...)
+
+	} else if win.JustPressed(pixelgl.Key3) {
+		if len(p.inventory) < 3 {
+			return
+		}
+		p.useItem(p.inventory[2])
+		p.inventory = append(p.inventory[:2], p.inventory[3:]...)
+
+	} else if win.JustPressed(pixelgl.Key4) {
+		if len(p.inventory) < 4 {
+			return
+		}
+		p.useItem(p.inventory[3])
+		p.inventory = append(p.inventory[:3], p.inventory[4:]...)
+
+	} else if win.JustPressed(pixelgl.Key5) {
+		if len(p.inventory) < 5 {
+			return
+		}
+		p.useItem(p.inventory[4])
+		p.inventory = append(p.inventory[:4], p.inventory[5:]...)
+
+	} else if win.JustPressed(pixelgl.Key6) {
+		if len(p.inventory) < 6 {
+			return
+		}
+		p.useItem(p.inventory[5])
+		p.inventory = append(p.inventory[:5], p.inventory[6:]...)
+
+	} else if win.JustPressed(pixelgl.Key7) {
+		if len(p.inventory) < 7 {
+			return
+		}
+		p.useItem(p.inventory[6])
+		p.inventory = append(p.inventory[:6], p.inventory[7:]...)
+
+	} else if win.JustPressed(pixelgl.Key8) {
+		if len(p.inventory) < 8 {
+			return
+		}
+		p.useItem(p.inventory[7])
+		p.inventory = append(p.inventory[:7], p.inventory[8:]...)
+
+	} else if win.JustPressed(pixelgl.Key9) {
+		if len(p.inventory) < 9 {
+			return
+		}
+		p.useItem(p.inventory[8])
+		p.inventory = p.inventory[:8]
+	}
 }

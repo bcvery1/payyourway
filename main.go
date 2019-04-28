@@ -122,6 +122,7 @@ func run() {
 		win.Clear(backingColour)
 
 		player.Update(dt, cam.Unproject(winBounds.Center()))
+		player.UpdateInventory(win)
 		lvlMan.Update(dt, win)
 
 		lvlMan.Draw(win)
