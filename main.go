@@ -89,9 +89,11 @@ func run() {
 	lvlMan = NewLevelManager(winBounds)
 	lvlMan.StartLevel(MenuInd)
 	player = NewPlayer()
+
 	SetupEnemies()
 	SetupGuns()
 	SetupAudio()
+	SetupAnnouncements()
 
 	last := time.Now()
 	second := time.Tick(time.Second)
@@ -119,6 +121,9 @@ func run() {
 
 		UpdateEnemies(dt)
 		DrawEnemies(win)
+
+		UpdateAnnouncements(dt)
+		DrawAnnouncements(win)
 
 		if win.JustPressed(pixelgl.MouseButtonLeft) {
 			v := cam.Unproject(win.MousePosition())

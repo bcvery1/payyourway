@@ -34,6 +34,7 @@ func (l *Level3) Init(pixel.Rect) {
 
 func (l *Level3) Start() {
 	camPos = pixel.V(7032, 7529)
+	Announce("Level 3")
 }
 
 func (l *Level3) Update(dt float64, win *pixelgl.Window) {

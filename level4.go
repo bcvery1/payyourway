@@ -7,34 +7,33 @@ import (
 
 type Level4 struct {
 	collisionRects []pixel.Rect
-	mineRects []pixel.Rect
-
+	mineRects      []pixel.Rect
 }
 
 func (l *Level4) Init(pixel.Rect) {
 	collisionOjLayer := tmxMap.GetObjectLayerByName("Level4Collisions")
 	for _, obj := range collisionOjLayer.Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.collisionRects = append(l.collisionRects, r)
 		}
 	}
 
 	for _, obj := range tmxMap.GetObjectLayerByName("CommonCollisions").Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.collisionRects = append(l.collisionRects, r)
 		}
 	}
 
 	mineObjLayer := tmxMap.GetObjectLayerByName("mines")
 	for _, obj := range mineObjLayer.Objects {
-		if r, err :=  obj.GetRect(); err == nil {
+		if r, err := obj.GetRect(); err == nil {
 			l.mineRects = append(l.mineRects, r)
 		}
 	}
 }
 
 func (l *Level4) Start() {
-	panic("implement me")
+	Announce("Level 4")
 }
 
 func (l *Level4) Update(float64, *pixelgl.Window) {
@@ -56,4 +55,3 @@ func (l *Level4) Hurt(pixel.Rect) {
 func (l *Level4) ReachedShop() string {
 	panic("implement me")
 }
-

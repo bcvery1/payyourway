@@ -39,6 +39,7 @@ func (l *Level1) Draw(win *pixelgl.Window) {
 
 func (l *Level1) Start() {
 	camPos = pixel.V(3210, 405)
+	Announce("Level 1")
 }
 
 func (l *Level1) Update(dt float64, win *pixelgl.Window) {
