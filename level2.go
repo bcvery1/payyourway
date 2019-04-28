@@ -57,7 +57,7 @@ func (l *Level2) Update(dt float64, win *pixelgl.Window) {
 
 		camPos = camPos.Add(deltaPos)
 		l.Hurt(newPlayerPos)
-		l.Drown(newPlayerPos)
+		l.Drown(dt, newPlayerPos)
 	}
 
 	deltaPos = pixel.ZV
@@ -73,7 +73,7 @@ func (l *Level2) Update(dt float64, win *pixelgl.Window) {
 
 		camPos = camPos.Add(deltaPos)
 		l.Hurt(newPlayerPos)
-		l.Drown(newPlayerPos)
+		l.Drown(dt, newPlayerPos)
 	}
 
 	// Check if we've reached a shop
@@ -109,11 +109,11 @@ func (l *Level2) Hurt(playerR pixel.Rect) {
 	}
 }
 
-func (l *Level2) Drown(playerR pixel.Rect) {
+func (l *Level2) Drown(dt float64, playerR pixel.Rect) {
 	zr := pixel.R(0, 0, 0, 0)
 	for _, r := range l.water {
 		if r.Intersect(playerR) != zr {
-			player.Drown(15)
+			player.Drown(500 * dt)
 			return
 		}
 	}

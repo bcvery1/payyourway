@@ -99,7 +99,7 @@ func (p *Player) Update(dt float64, offset pixel.Vec) {
 
 	if p.drownFade < 255 {
 		hf := int(p.drownFade)
-		hf += int(500 * dt)
+		hf += int(250 * dt)
 		if hf > 255 {
 			p.drownFade = 255
 		} else {
@@ -258,6 +258,7 @@ func (p *Player) Drown(hp float64) {
 
 	if p.boatHealth > 0 {
 		p.boatHealth -= hp
+		fmt.Println(p.boatHealth)
 		if p.boatHealth < 0 {
 			Announce("The boat broke")
 			p.boatHealth = 0
