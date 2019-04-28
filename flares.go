@@ -56,6 +56,7 @@ func (f *flare) update(dt float64) {
 
 	if f.life < 0 {
 		delete(flares, f.id)
+		NewSmoke(f.pos, pixel.ZV)
 	}
 
 	f.currentSpriteInd = Sprite(f, dt)
