@@ -42,6 +42,9 @@ func init() {
 
 	enemySprites = []*pixel.Sprite{
 		pixel.NewSprite(tilemapPic, pixel.R(0, 16, 16, 32)),
+		pixel.NewSprite(tilemapPic, pixel.R(16, 16, 32, 32)),
+		pixel.NewSprite(tilemapPic, pixel.R(32, 16, 48, 32)),
+		pixel.NewSprite(tilemapPic, pixel.R(48, 16, 64, 32)),
 	}
 
 	rand.Seed(time.Now().UnixNano())

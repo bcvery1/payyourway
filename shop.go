@@ -52,18 +52,25 @@ func (i *Item) Buy() {
 	case "Light Shield":
 		player.shield += 20
 		player.maxShield += 20
+		Announce("+20 shield")
 	case "Shield":
 		player.shield += 40
 		player.maxShield += 40
+		Announce("+40 shield")
 	case "Heavy Shield":
 		player.shield += 60
 		player.maxShield += 60
+		Announce("+60 shield")
 	case "Max HP Boost":
 		player.maxHealth += 20
+		Announce("+20 hp")
 	case "Flares":
 		player.inventory = append(player.inventory, *i)
+		Announce("Gained flares")
+	case "Boat":
+		player.inventory = append(player.inventory, *i)
+		Announce("Gained boat")
 	default:
-		fmt.Println(i.name)
 	}
 }
 
