@@ -26,7 +26,7 @@ type Player struct {
 	shield           float64
 	maxShield        float64
 	boatHealth       float64
-	jumpBoost        int
+	jumpBoost        float64
 	invincibleCount  float64
 }
 
@@ -59,7 +59,7 @@ func NewPlayer() *Player {
 		},
 		imd:       imdraw.New(nil),
 		hitFade:   255,
-		jumpBoost: 1,
+		jumpBoost: 1.2,
 	}
 	p.aniRate = float64(len(p.sprites)) * 0.0375
 
