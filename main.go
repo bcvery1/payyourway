@@ -14,10 +14,13 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/image/font/basicfont"
 )
 
 func init() {
+	logrus.SetLevel(logrus.FatalLevel)
+
 	var err error
 	tilemapPic, err = loadPicture("assets/tilemap.png")
 	if err != nil {
