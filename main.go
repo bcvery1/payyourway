@@ -50,6 +50,14 @@ func init() {
 		pixel.NewSprite(tilemapPic, pixel.R(48, 16, 64, 32)),
 	}
 
+	flareSprites = []*pixel.Sprite{
+		pixel.NewSprite(tilemapPic, pixel.R(64, 33*16, 80, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(80, 33*16, 96, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(96, 33*16, 112, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(112, 33*16, 128, 34*16)),
+		pixel.NewSprite(tilemapPic, pixel.R(128, 33*16, 144, 34*16)),
+	}
+
 	invSprites = map[string]*pixel.Sprite{
 		"Boat":   pixel.NewSprite(tilemapPic, pixel.R(0, 30*16, 16, 31*16)),
 		"Flares": pixel.NewSprite(tilemapPic, pixel.R(16, 30*16, 32, 31*16)),
@@ -135,6 +143,9 @@ func run() {
 
 		UpdateEnemies(dt)
 		DrawEnemies(win)
+
+		UpdateFlares(dt)
+		DrawFlares(win)
 
 		UpdateAnnouncements(dt)
 		DrawAnnouncements(win)

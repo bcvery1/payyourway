@@ -38,6 +38,9 @@ func NewPlayer() *Player {
 		},
 		imd:     imdraw.New(nil),
 		hitFade: 255,
+		inventory: []Item{
+			{name: "Flares"},
+		},
 	}
 
 	return &p
@@ -46,9 +49,11 @@ func NewPlayer() *Player {
 func (p *Player) useItem(item Item) {
 	switch item.name {
 	case "Boat":
+		Announce("Using boat")
 		p.boatHealth += 50
 	case "Flares":
-		fmt.Println("Deploy flares!")
+		Announce("Deployed flares")
+		NewFlare(p.CollisionBox().Center())
 	}
 }
 

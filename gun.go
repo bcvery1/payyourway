@@ -115,7 +115,22 @@ func (r *rocket) Update(dt float64) {
 		r.explode()
 	}
 
-	r.dir = r.dir.Add(r.toPlayer().Unit().Scaled(rocketAcc))
+	var newDir pixel.Vec
+	if len(flares) > 0 {
+		var closestInd int
+		closestDist := float64(gunFireDist * 2)
+		for i, f := range flares {
+			if r.pos.To(f.pos).Len() < closestDist {
+				closestInd = i
+			}
+		}
+
+		newDir = r.pos.To(flares[closestInd].pos)
+	} else {
+		newDir = r.toPlayer()
+	}
+
+	r.dir = r.dir.Add(newDir.Unit().Scaled(rocketAcc))
 }
 
 func (r *rocket) toPlayer() pixel.Vec {
