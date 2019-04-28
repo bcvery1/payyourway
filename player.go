@@ -46,8 +46,8 @@ func (p *Player) SetLast(last float64) {
 
 func NewPlayer() *Player {
 	p := Player{
-		health:    200,
-		maxHealth: 200,
+		health:    100,
+		maxHealth: 100,
 		bounds:    pixel.R(-4, -4, 4, 4),
 		sprites: []*pixel.Sprite{
 			pixel.NewSprite(tilemapPic, pixel.R(0, 0, 16, 16)),
@@ -57,9 +57,6 @@ func NewPlayer() *Player {
 		},
 		imd:     imdraw.New(nil),
 		hitFade: 255,
-		inventory: []Item{
-			{name: "Flares"},
-		},
 	}
 	p.aniRate = float64(len(p.sprites)) * 0.0375
 
