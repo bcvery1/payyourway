@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1121">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1130">
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="1600" columns="40">
   <image source="tilemap.png" width="640" height="640"/>
  </tileset>
@@ -2795,31 +2795,31 @@
   <object id="1107" x="3057.33" y="238.667" width="15.3333" height="19.3333"/>
   <object id="1108" x="2784" y="29.3333" width="32.6667" height="34"/>
   <object id="1109" x="2656.67" y="113.333" width="17.3333" height="13.3333"/>
-  <object id="1110" x="3824" y="-5.33333">
+  <object id="1121" x="3845" y="-9">
    <point/>
   </object>
-  <object id="1111" x="3924" y="-8.66667">
+  <object id="1122" x="3919" y="-7">
    <point/>
   </object>
-  <object id="1112" x="4035.33" y="-6.66667">
+  <object id="1123" x="3990" y="-6">
    <point/>
   </object>
-  <object id="1113" x="3794" y="373.333">
+  <object id="1124" x="3834" y="377">
    <point/>
   </object>
-  <object id="1114" x="3916.67" y="374.667">
+  <object id="1125" x="3904" y="375">
    <point/>
   </object>
-  <object id="1115" x="4000.67" y="374">
+  <object id="1126" x="3972" y="377">
    <point/>
   </object>
-  <object id="1116" x="4952" y="313.333">
+  <object id="1127" x="4947" y="314">
    <point/>
   </object>
-  <object id="1117" x="5111.33" y="316">
+  <object id="1128" x="5089" y="313">
    <point/>
   </object>
-  <object id="1118" x="5208.67" y="312">
+  <object id="1129" x="5204" y="309">
    <point/>
   </object>
  </objectgroup>

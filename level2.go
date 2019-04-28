@@ -56,6 +56,7 @@ func (l *Level2) Update(dt float64, win *pixelgl.Window) {
 
 		camPos = camPos.Add(deltaPos)
 		l.Hurt(newPlayerPos)
+		l.Drown(newPlayerPos)
 	}
 
 	deltaPos = pixel.ZV
@@ -67,8 +68,11 @@ func (l *Level2) Update(dt float64, win *pixelgl.Window) {
 	}
 
 	if deltaPos != pixel.ZV && player.CanMove(deltaPos) {
+		newPlayerPos := player.bounds.Moved(player.offSet.Add(deltaPos))
+
 		camPos = camPos.Add(deltaPos)
-		l.Hurt(player.CollisionBox().Moved(deltaPos))
+		l.Hurt(newPlayerPos)
+		l.Drown(newPlayerPos)
 	}
 
 	// Check if we've reached a shop
