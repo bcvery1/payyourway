@@ -12,29 +12,29 @@ import (
 
 const (
 	buttonsAcross = 4
-	buttonsDown = 3
+	buttonsDown   = 3
 )
 
 var (
-	itemWidth = (winBounds.Max.X-30)/buttonsAcross
-	itemHeight = (winBounds.Max.Y-130)/buttonsDown
-	itemSize = pixel.V(itemWidth, itemHeight)
+	itemWidth  = (winBounds.Max.X - 30) / buttonsAcross
+	itemHeight = (winBounds.Max.Y - 130) / buttonsDown
+	itemSize   = pixel.V(itemWidth, itemHeight)
 
-	itemColour = color.RGBA{R: 0x5c, G: 0x72, B: 0x7e, A: 0x00}
-	itemSelectColour = color.RGBA{R: 0x80, G: 0xb9, B: 0xda, A: 0x00}
+	itemColour         = color.RGBA{R: 0x5c, G: 0x72, B: 0x7e, A: 0x00}
+	itemSelectColour   = color.RGBA{R: 0x80, G: 0xb9, B: 0xda, A: 0x00}
 	itemDisabledColour = color.RGBA{R: 0x55, G: 0x55, B: 0x55, A: 0x00}
 
-	itemBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0x00}
+	itemBorder       = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0x00}
 	itemSelectBorder = color.RGBA{R: 0x7e, G: 0x7e, B: 0x7e, A: 0xaa}
 )
 
 type Item struct {
-	disabled bool
+	disabled    bool
 	highlighted bool
-	cost float64
-	gridPos pixel.Vec
-	name string
-	text *text.Text
+	cost        float64
+	gridPos     pixel.Vec
+	name        string
+	text        *text.Text
 }
 
 func (i *Item) winPos() pixel.Rect {
@@ -57,7 +57,7 @@ func (i *Item) Buy() {
 		player.maxShield += 40
 	case "Heavy Shield":
 		player.shield += 60
-		player.maxShield+= 60
+		player.maxShield += 60
 	case "Max HP Boost":
 		player.maxHealth += 20
 	case "Flares":
@@ -67,7 +67,7 @@ func (i *Item) Buy() {
 	}
 }
 
-func (i *Item) Draw (imd *imdraw.IMDraw, target pixel.Target) {
+func (i *Item) Draw(imd *imdraw.IMDraw, target pixel.Target) {
 	imd.Color = itemColour
 	if i.highlighted {
 		imd.Color = itemSelectColour
@@ -91,9 +91,9 @@ func (i *Item) Draw (imd *imdraw.IMDraw, target pixel.Target) {
 }
 
 type Shop struct {
-	imd *imdraw.IMDraw
-	items []*Item
-	nextLevel int
+	imd        *imdraw.IMDraw
+	items      []*Item
+	nextLevel  int
 	returnText *text.Text
 }
 
@@ -135,7 +135,7 @@ func (s *Shop) Init(pixel.Rect) {
 }
 
 func (s *Shop) AddItem(cost float64, name, desc string) {
-	if len(s.items) >= buttonsAcross * buttonsDown {
+	if len(s.items) >= buttonsAcross*buttonsDown {
 		return
 	}
 
@@ -145,7 +145,7 @@ func (s *Shop) AddItem(cost float64, name, desc string) {
 		gridPos: pixel.V(
 			float64(len(s.items)%buttonsAcross),
 			float64(len(s.items)/buttonsAcross),
-			),
+		),
 	}
 
 	i.text = text.New(i.winPos().Min.Add(pixel.V(20, itemHeight-30)), atlas)
@@ -185,7 +185,7 @@ func (s *Shop) Setup(shopName string) {
 		if lvlMan.previousLevel == Level4Ind {
 			lvlMan.StartLevel(EndInd)
 		}
-		s.nextLevel = lvlMan.previousLevel+1
+		s.nextLevel = lvlMan.previousLevel + 1
 	case "FirstLevelMid":
 		s.nextLevel = Level1Ind
 
@@ -195,6 +195,11 @@ func (s *Shop) Setup(shopName string) {
 		s.AddItem(150, "Flares", "One use deploy flares")
 	case "SecondLevelMid":
 		s.nextLevel = Level2Ind
+
+		s.AddItem(45, "Light Shield", "Provides 20 points of protection")
+		s.AddItem(99, "Max HP Boost", "Permanently adds 20 extra HP")
+		s.AddItem(80, "Boat", "Allows travel over water")
+		s.AddItem(200, "Invincibility", "Provides 10 seconds of invincibility")
 	case "ThirdLevelMid":
 		s.nextLevel = Level3Ind
 	default:
