@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"math/rand"
@@ -125,8 +124,6 @@ func run() {
 	SetupPowerups()
 
 	last := time.Now()
-	second := time.Tick(time.Second)
-	frames := 0
 
 	for !win.Closed() {
 		dt := time.Since(last).Seconds()
@@ -161,20 +158,7 @@ func run() {
 		UpdatePowerups()
 		DrawPowerups(win)
 
-		if win.JustPressed(pixelgl.MouseButtonLeft) {
-			v := cam.Unproject(win.MousePosition())
-			fmt.Printf("pixel.V(%.0f, %.0f),\n", v.X, v.Y)
-		}
-
 		win.Update()
-
-		frames++
-		select {
-		case <-second:
-			win.SetTitle(fmt.Sprintf("%s | FPS: %d | (%.2f, %.2f) ", cfg.Title, frames, camPos.X, camPos.Y))
-			frames = 0
-		default:
-		}
 	}
 }
 
