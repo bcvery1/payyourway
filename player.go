@@ -60,9 +60,6 @@ func NewPlayer() *Player {
 		imd:       imdraw.New(nil),
 		hitFade:   255,
 		jumpBoost: 1,
-		inventory: []Item{
-			{name: "Invincibility"},
-		},
 	}
 	p.aniRate = float64(len(p.sprites)) * 0.0375
 
