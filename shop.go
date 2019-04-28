@@ -134,7 +134,7 @@ func (s *Shop) Init(pixel.Rect) {
 	s.returnText.Color = color.White
 	_, _ = fmt.Fprint(s.returnText, "Return")
 
-	s.headline = text.New(pixel.V(100, winBounds.H()-10), atlas)
+	s.headline = text.New(pixel.V(100, winBounds.H()-40), atlas)
 }
 
 func (s *Shop) AddItem(cost float64, name, desc string) {
@@ -167,7 +167,8 @@ func (s *Shop) Draw(win *pixelgl.Window) {
 
 	s.returnText.Draw(win, pixel.IM.Scaled(s.returnText.Orig, 2))
 
-	_, _ = fmt.Fprintf(s.headline, "Shop | You have %.0f hp to spend", player.health)
+	s.headline.Clear()
+	_, _ = fmt.Fprintf(s.headline, "Shop \nYou have %.0f hp to spend", player.health)
 	s.headline.Draw(win, pixel.IM.Scaled(s.headline.Orig, 3))
 
 	s.imd.Draw(win)
