@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 
 	"github.com/faiface/pixel"
@@ -51,7 +50,6 @@ type fire struct {
 }
 
 func NewFire(pos, vel pixel.Vec) {
-	fmt.Println(vel)
 	inc(fireCount)
 
 	f := fire{
