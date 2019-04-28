@@ -17,7 +17,7 @@ var (
 	scale     float64
 	alpha     uint8
 
-	scaleRate = 1.5
+	scaleRate = 2.5
 	alphaRate = 2.
 
 	t *text.Text
@@ -59,7 +59,7 @@ func DrawAnnouncements(target pixel.Target) {
 	}
 
 	offset := player.offSet.Sub(t.Bounds().Max)
-	mask := color.RGBA{R: alpha, G: alpha, B: alpha, A: 255 - alpha}
+	mask := color.RGBA{R: 255 - alpha, G: 255 - alpha, B: 255 - alpha, A: 0x00}
 	t.DrawColorMask(target, pixel.IM.Moved(offset).Scaled(offset, scale), mask)
 }
 
