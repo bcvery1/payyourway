@@ -91,6 +91,7 @@ func run() {
 	player = NewPlayer()
 	SetupEnemies()
 	SetupGuns()
+	SetupAudio()
 
 	last := time.Now()
 	second := time.Tick(time.Second)

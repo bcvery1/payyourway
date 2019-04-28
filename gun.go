@@ -63,6 +63,8 @@ func (g *Gun) Update(dt float64) {
 }
 
 func (g *Gun) Fire() {
+	PlaySound(rocketSound)
+
 	g.sinceLast = 0
 
 	r := rocket{
@@ -121,6 +123,8 @@ func (r *rocket) toPlayer() pixel.Vec {
 }
 
 func (r *rocket) explode() {
+	PlaySound(explosionSound)
+
 	delete(rockets, r.id)
 
 	if r.toPlayer().Len() < minSafeDist {

@@ -1,5 +1,6 @@
-run:
-	go run .
+run: build
+	cp dist/payyourway .
+	./payyourway
 
-build:
+build: *.go
 	go build -o dist/payyourway .

@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/bcvery1/tilepix v0.3.2
+	github.com/faiface/beep v1.0.1
 	github.com/faiface/pixel v0.8.1-0.20190425121709-a68a4e38b42d
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1 // indirect
 	github.com/go-gl/mathgl v0.0.0-20190416160123-c4601bc793c7 // indirect

@@ -135,6 +135,8 @@ func (p *Player) drawHUD(target pixel.Target) {
 }
 
 func (p *Player) Hurt(hp float64) {
+	PlaySound(hurtSound)
+
 	if p.hitFade < 255 {
 		return
 	}

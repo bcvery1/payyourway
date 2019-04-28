@@ -70,6 +70,8 @@ func (e *Enemy) Draw(target pixel.Target) {
 }
 
 func (e *Enemy) fire() {
+	PlaySound(bulletSound)
+
 	e.lastFire = 0
 
 	NewBullet(e.pos, e.pos.To(player.CollisionBox().Center()))
