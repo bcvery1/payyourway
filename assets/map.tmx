@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1431">
+<map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="500" height="500" tilewidth="16" tileheight="16" infinite="0" nextobjectid="1436">
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="1600" columns="40">
   <image source="tilemap.png" width="640" height="640"/>
  </tileset>
@@ -1865,6 +1865,8 @@
   <object id="1425" x="800.5" y="4359" width="20" height="6"/>
   <object id="1426" x="1039.5" y="4279.5" width="33" height="5"/>
   <object id="1427" x="2704" y="4711.5" width="31.5" height="4"/>
+  <object id="1434" x="3200.55" y="3123.27" width="17.4545" height="8.36364"/>
+  <object id="1435" x="3056.09" y="3128.91" width="144.727" height="8"/>
  </objectgroup>
  <objectgroup name="PowerUps">
   <object id="1380" type="health" x="3019.5" y="6396">
@@ -3245,5 +3247,9 @@
   <object id="345" name="SecondLevelMid" x="7039.75" y="3185" width="16.5" height="15.75"/>
   <object id="346" name="ThirdLevelMid" x="5744.36" y="1072.18" width="14.9091" height="16.7273"/>
   <object id="1372" name="FourthLevelMid" x="3169.33" y="3970.33" width="12.3333" height="19"/>
+ </objectgroup>
+ <objectgroup name="actions">
+  <object id="1432" name="platformer" x="3199" y="3088.5" width="15.5" height="33.5"/>
+  <object id="1433" name="2d" x="3218" y="3089.5" width="18.5" height="31.5"/>
  </objectgroup>
 </map>

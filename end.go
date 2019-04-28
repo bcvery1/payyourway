@@ -13,8 +13,7 @@ type End struct {
 }
 
 func (e *End) Init(pixel.Rect) {
-	e.text = text.New(winBounds.Center().Sub(pixel.V(45, -25)), atlas)
-	_, _ = fmt.Fprint(e.text, "The\nEnd")
+	e.text = text.New(winBounds.Center().Sub(pixel.V(390, -150)), atlas)
 }
 
 func (e *End) Start() {
@@ -25,6 +24,8 @@ func (e *End) Update(float64, *pixelgl.Window) {
 }
 
 func (e *End) Draw(win *pixelgl.Window) {
+	e.text.Clear()
+	_, _ = fmt.Fprintf(e.text, "\t\tThe\n\t\tEnd\n\nYou got %.0f points", player.health)
 	e.text.Draw(win, pixel.IM.Scaled(e.text.Orig, 6))
 }
 
@@ -39,4 +40,3 @@ func (e *End) Hurt(pixel.Rect) {
 func (e *End) ReachedShop() string {
 	return ""
 }
-
