@@ -22,7 +22,10 @@ func init() {
 	logrus.SetLevel(logrus.FatalLevel)
 
 	bin, err := os.Executable()
-	binPath := filepath.Dir(bin)
+	if err != nil {
+		panic(err)
+	}
+	binPath = filepath.Dir(bin)
 	tilemapPic, err = loadPicture(filepath.Join(binPath, "assets/tilemap.png"))
 	if err != nil {
 		panic(err)
@@ -91,11 +94,12 @@ var (
 	tilemapPic pixel.Picture
 
 	invSprites map[string]*pixel.Sprite
+
+	binPath string
 )
 
 func run() {
-	bin, err := os.Executable()
-	binPath := filepath.Dir(bin)
+	var err error
 	tmxMap, err = tilepix.ReadFile(filepath.Join(binPath, "assets/map.tmx"))
 	if err != nil {
 		panic(err)

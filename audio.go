@@ -31,7 +31,7 @@ const (
 )
 
 func SetupAudio() {
-	mainTrack, err := os.Open("assets/mainTrack.wav")
+	mainTrack, err := os.Open(filepath.Join(binPath, "assets/mainTrack.wav"))
 	if err != nil {
 		hasErrored = true
 		return
@@ -64,7 +64,7 @@ func SetupAudio() {
 }
 
 func loadSound(sound Track) {
-	filename := filepath.Join("assets", fmt.Sprintf("%s.wav", sound))
+	filename := filepath.Join(binPath, "assets", fmt.Sprintf("%s.wav", sound))
 	f, err := os.Open(filename)
 	if err != nil {
 		return
