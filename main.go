@@ -5,6 +5,7 @@ import (
 	"image/color"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"time"
 
 	_ "image/png"
@@ -21,7 +22,9 @@ func init() {
 	logrus.SetLevel(logrus.FatalLevel)
 
 	var err error
-	tilemapPic, err = loadPicture("assets/tilemap.png")
+	bin, err := os.Executable()
+	binPath := filepath.Dir(bin)
+	tilemapPic, err = loadPicture(filepath.Join(binPath, "assets/tilemap.png"))
 	if err != nil {
 		panic(err)
 	}
